@@ -9,9 +9,11 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: URP_multicolor_mat
   m_Shader: {fileID: -6465566751694194690, guid: bf4efdc613a4c6b4bbd2fd12fee32cd7, type: 3}
-  m_ValidKeywords:
-  - BOOLEAN_7F1C8060_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - BOOLEAN_7F1C8060_ON
   - _EMISSION
   - _METALLICSPECGLOSSMAP
   m_LightmapFlags: 2
@@ -20,6 +22,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
