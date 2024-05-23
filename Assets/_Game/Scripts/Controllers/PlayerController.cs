@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Character
@@ -22,6 +20,7 @@ public class PlayerController : Character
             currentRotation = JoyStickController.direction;
         }
         DetectTarget();
+        Attack();
         MoveCharacter();
     }
 
@@ -30,6 +29,7 @@ public class PlayerController : Character
         if (Input.GetMouseButton(0))
         {
             ChangeAnim(AnimationState.run);
+            currentTarget = null;
             isMoving = true;
             isAttack = false;
             if (JoyStickController.direction != Vector3.zero)
@@ -41,14 +41,16 @@ public class PlayerController : Character
         if (Input.GetMouseButtonUp(0))
         {
             isMoving = false;
-            AttackControl();
-            if(isAttack == false)
+            if (isAttack == false)
             {
-                ChangeAnim(AnimationState.idle); 
-            }          
+                ChangeAnim(AnimationState.idle);
+            }
         }
 
-        //rotate player
-        transform.rotation = Quaternion.LookRotation(currentRotation);
+        if (isAttack == false)
+        {
+            //rotate player
+            transform.rotation = Quaternion.LookRotation(currentRotation);
+        }
     }
 }

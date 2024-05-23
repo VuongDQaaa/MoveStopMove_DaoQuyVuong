@@ -6,22 +6,29 @@ public class Character : MonoBehaviour
     public enum AnimationState { idle, run, attack, dance, die }
     [Header("Animation")]
     [SerializeField] private Animator anim;
+
     [Header("Attack")]
+    [SerializeField] private LayerMask attackLayer;
+    public float attackRange = 5f;
+    [SerializeField] private float attackCoolDown = 0f;
+    [SerializeField] protected Transform currentTarget;
+    public bool isAttack = false;
+
+    [Header("Weapon")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 5f;
-    [SerializeField] private LayerMask attackLayer;
-    [SerializeField] private float attackRange = 5f;
-    [SerializeField] private GameObject currentTarget;
-    protected bool isAttack = false;
+    [SerializeField] private float attackSpeed = 1f;
+
     [Header("Movement")]
     [SerializeField] private LayerMask groundLayer;
-    protected bool isMoving = false;
+    public bool isMoving = false;
 
     private AnimationState currentAnimationState;
 
     public Vector3 CheckGrounded(Vector3 nextPos)
     {
         RaycastHit hit;
+        Debug.DrawRay(nextPos, Vector3.down, Color.blue);
         if (Physics.Raycast(nextPos, Vector3.down, out hit, 2f, groundLayer))
         {
             return hit.point + Vector3.up * 1.2f;
@@ -31,7 +38,7 @@ public class Character : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        // Vẽ bán kính phát hiện trong Scene View để dễ dàng điều chỉnh
+        // Draw detect radius in screen view
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
@@ -39,31 +46,54 @@ public class Character : MonoBehaviour
     protected void DetectTarget()
     {
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, attackRange, attackLayer);
-        if(targetsInViewRadius.Length > 0)
+        if (targetsInViewRadius.Length > 1)
         {
-            currentTarget = targetsInViewRadius[0].transform.gameObject;
+            float targetDistance = Mathf.Infinity;
+            foreach (Collider item in targetsInViewRadius)
+            {
+                float distance = Vector3.Distance(transform.position, item.transform.position);
+                if (targetDistance > distance && distance > 0.1f && currentTarget == null)
+                {
+                    targetDistance = distance;
+                    currentTarget = item.transform;
+                }
+            }
         }
         else
         {
             currentTarget = null;
+            attackCoolDown = 0;
         }
     }
 
-    protected void AttackControl()
+    protected void Attack()
     {
-        if(isMoving == false && isAttack == false && currentTarget != null)
+        if (!isMoving && currentTarget != null && attackCoolDown <= 0f)
         {
-            StartCoroutine(Attack());
+            isAttack = true;
+            transform.LookAt(currentTarget.transform.position);
+            ChangeAnim(AnimationState.attack);
+            GenerateBullet(currentTarget);
+            attackCoolDown = attackSpeed;
+        }
+
+        if (attackCoolDown > 0f)
+        {
+            attackCoolDown -= Time.deltaTime;
+        }
+
+        if(isAttack == false || attackCoolDown < 0)
+        {
+            attackCoolDown = 0;
         }
     }
 
-    private void GenerateBullet(GameObject target)
+    private void GenerateBullet(Transform target)
     {
         //Create bullet and shoot it with direction from character to target
         GameObject newBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        Vector3 dir = target.transform.position - transform.position;
+        Vector3 dir = target.position - transform.position;
         dir.y = 1f;
-
         //Use velocity
         newBullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
     }
@@ -87,15 +117,6 @@ public class Character : MonoBehaviour
         {
             StartCoroutine(SetDie());
         }
-    }
-
-    IEnumerator Attack()
-    {
-        isAttack = true;
-        Debug.Log("Attack");
-        ChangeAnim(AnimationState.attack);
-        yield return new WaitForSeconds(0.5f);
-        GenerateBullet(currentTarget);
     }
 
     IEnumerator SetDie()
