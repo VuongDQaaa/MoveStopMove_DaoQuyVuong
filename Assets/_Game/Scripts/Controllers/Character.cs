@@ -31,7 +31,7 @@ public class Character : MonoBehaviour
         Debug.DrawRay(nextPos, Vector3.down, Color.blue);
         if (Physics.Raycast(nextPos, Vector3.down, out hit, 2f, groundLayer))
         {
-            return hit.point + Vector3.up * 1.2f;
+            return hit.point + Vector3.up * 1.1f;
         }
         return transform.position;
     }

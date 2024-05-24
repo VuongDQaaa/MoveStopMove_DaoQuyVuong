@@ -41,7 +41,7 @@ public class PlayerController : Character
         if (Input.GetMouseButtonUp(0))
         {
             isMoving = false;
-            if (isAttack == false)
+            if (isAttack == false) 
             {
                 ChangeAnim(AnimationState.idle);
             }

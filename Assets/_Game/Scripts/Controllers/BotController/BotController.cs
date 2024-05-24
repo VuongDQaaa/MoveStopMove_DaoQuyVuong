@@ -9,7 +9,7 @@ public class BotController : Character
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        ChangeState(new IdleState());
+        ChangeState(new StopState());
     }
 
     // Update is called once per frame
@@ -25,18 +25,23 @@ public class BotController : Character
 
     public void OnPatrol(Vector3 newPostion)
     {
+        currentTarget = null;
         //move to a position
         ChangeAnim(AnimationState.run);
         isMoving = true;
+        isAttack = false;
         agent.destination = newPostion;
     }
 
-    public void OnIdle()
+    public void OnStop()
     {
-        //stand still and play idel anim
+        //stop character
         agent.ResetPath();
         isMoving = false;
-        ChangeAnim(AnimationState.idle);
+        if(isAttack == false && currentTarget == null)
+        {
+            ChangeAnim(AnimationState.idle);
+        }
     }
 
     public void OnFindTarget()
@@ -44,7 +49,7 @@ public class BotController : Character
         //find the nearest character on the map
         float distance = Mathf.Infinity;
         GameObject targetCharacter = new GameObject(); 
-        foreach (Character item in GameManager.Instance.currentCharacter)
+        foreach (GameObject item in GameManager.Instance.currentCharacter)
         {
             float TargetDistance = Vector3.Distance(transform.position, item.transform.position);
             if(TargetDistance > 0.1f && TargetDistance < distance)
@@ -56,6 +61,10 @@ public class BotController : Character
 
         if(targetCharacter != null)
         {
+            currentTarget = null;
+            ChangeAnim(AnimationState.run);
+            isAttack = false;
+            isMoving = true;
             agent.destination = targetCharacter.transform.position;
         }
     }

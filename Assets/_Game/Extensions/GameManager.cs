@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public List<Character> currentCharacter;
+    public List<GameObject> currentCharacter;
 }

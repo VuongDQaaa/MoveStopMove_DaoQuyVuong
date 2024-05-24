@@ -1,21 +1,34 @@
+using UnityEngine;
+
 public class StopState : IState
 {
+    float timer;
+    bool findTarget;
     public void OnEnter(BotController bot)
     {
-        bot.isMoving = false;
-        bot.agent.ResetPath();
+        timer = Random.Range(2, 4);
+        findTarget = Random.Range(0, 2) == 0;
     }
 
     public void OnExecute(BotController bot)
     {
-        if(bot.agent.remainingDistance < bot.attackRange - 0.5f)
+        if(timer > 0)
         {
-            bot.agent.ResetPath();
+            bot.OnStop();
+            timer -= Time.deltaTime;
+        }
+        else if(timer <= 0 && findTarget)
+        {
+            bot.ChangeState(new FindTargetState());
+        }
+        else
+        {
+            bot.ChangeState(new PatrolState());
         }
     }
 
     public void OnExit(BotController bot)
     {
-        
+        timer = 0;
     }
 }
