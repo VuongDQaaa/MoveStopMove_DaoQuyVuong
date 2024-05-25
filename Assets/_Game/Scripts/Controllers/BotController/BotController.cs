@@ -5,6 +5,8 @@ public class BotController : Character
 {
     public NavMeshAgent agent;
     private IState currentState;
+    private float maxMovingRange;
+    private Transform targetCharacter;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +25,24 @@ public class BotController : Character
         Attack();
     }
 
-    public void OnPatrol(Vector3 newPostion)
+    public void OnPatrol()
     {
+        //update information before moving
         currentTarget = null;
-        //move to a position
-        ChangeAnim(AnimationState.run);
         isMoving = true;
         isAttack = false;
-        agent.destination = newPostion;
+
+        //get a random postion on map
+        maxMovingRange = Random.Range(15f, 20f);
+        Vector3 randomDirection = Random.insideUnitCircle * maxMovingRange;
+        randomDirection += transform.position;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, maxMovingRange, 1);
+        Vector3 finalPostion = hit.position;
+
+        //move character
+        ChangeAnim(AnimationState.run);
+        agent.destination = finalPostion;
     }
 
     public void OnStop()
@@ -38,7 +50,7 @@ public class BotController : Character
         //stop character
         agent.ResetPath();
         isMoving = false;
-        if(isAttack == false && currentTarget == null)
+        if (isAttack == false && currentTarget == null)
         {
             ChangeAnim(AnimationState.idle);
         }
@@ -48,24 +60,23 @@ public class BotController : Character
     {
         //find the nearest character on the map
         float distance = Mathf.Infinity;
-        GameObject targetCharacter = new GameObject(); 
         foreach (GameObject item in GameManager.Instance.currentCharacter)
         {
             float TargetDistance = Vector3.Distance(transform.position, item.transform.position);
-            if(TargetDistance > 0.1f && TargetDistance < distance)
+            if (TargetDistance > 0.1f && TargetDistance < distance)
             {
-                targetCharacter = item.gameObject;
                 distance = TargetDistance;
+                targetCharacter = item.transform;
             }
         }
 
-        if(targetCharacter != null)
+        if (targetCharacter != null)
         {
             currentTarget = null;
             ChangeAnim(AnimationState.run);
             isAttack = false;
             isMoving = true;
-            agent.destination = targetCharacter.transform.position;
+            agent.destination = targetCharacter.position;
         }
     }
 

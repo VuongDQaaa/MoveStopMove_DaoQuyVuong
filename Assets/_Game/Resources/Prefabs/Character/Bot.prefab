@@ -834,6 +834,37 @@ Transform:
   - {fileID: 7325176820254802502}
   m_Father: {fileID: 3681862795384874785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3984478266513654636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8618704863963413441}
+  m_Layer: 6
+  m_Name: root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8618704863963413441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3984478266513654636}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 1.0413342}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1428666478092284253}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &4124897785636069223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1209,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6026486434870929806}
+  - {fileID: 8618704863963413441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1540236432337153352
@@ -1246,12 +1278,12 @@ MonoBehaviour:
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
-  attackRange: 6
   attackCoolDown: 0
   currentTarget: {fileID: 0}
   isAttack: 0
-  bulletPrefab: {fileID: 4832414007913182365, guid: 2ebfb95f1a0d6084189875103f4be44a, type: 3}
-  bulletSpeed: 5
+  root: {fileID: 8618704863963413441}
+  attackRange: 6
+  bulletPrefab: {fileID: 869964357530375720, guid: 4df6d0237de101c4ea7cbdc19febef4e, type: 3}
   attackSpeed: 1.7
   groundLayer:
     serializedVersion: 2

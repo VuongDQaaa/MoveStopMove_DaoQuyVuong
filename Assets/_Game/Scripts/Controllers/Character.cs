@@ -6,24 +6,29 @@ public class Character : MonoBehaviour
     public enum AnimationState { idle, run, attack, dance, die }
     [Header("Animation")]
     [SerializeField] private Animator anim;
+    private AnimationState currentAnimationState;
 
     [Header("Attack")]
     [SerializeField] private LayerMask attackLayer;
-    public float attackRange = 5f;
     [SerializeField] private float attackCoolDown = 0f;
     [SerializeField] protected Transform currentTarget;
     public bool isAttack = false;
 
     [Header("Weapon")]
+    [SerializeField] Transform root;
+    public float attackRange = 5f;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed = 5f;
-    [SerializeField] private float attackSpeed = 1f;
+    [SerializeField] private float attackSpeed = 1.7f;
 
     [Header("Movement")]
     [SerializeField] private LayerMask groundLayer;
     public bool isMoving = false;
 
-    private AnimationState currentAnimationState;
+    void Awake()
+    {
+        bulletPrefab.GetComponent<BulletController>().attacker = transform;
+        ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
+    }
 
     public Vector3 CheckGrounded(Vector3 nextPos)
     {
@@ -82,7 +87,7 @@ public class Character : MonoBehaviour
             attackCoolDown -= Time.deltaTime;
         }
 
-        if(isAttack == false || attackCoolDown < 0)
+        if (isAttack == false || attackCoolDown < 0)
         {
             attackCoolDown = 0;
         }
@@ -90,12 +95,8 @@ public class Character : MonoBehaviour
 
     private void GenerateBullet(Transform target)
     {
-        //Create bullet and shoot it with direction from character to target
-        GameObject newBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        Vector3 dir = target.position - transform.position;
-        dir.y = 1f;
-        //Use velocity
-        newBullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
+        GameObject bullet = ObjectPooling.Instance.GetPoolObjectByAttacker(transform, root);
+        bullet.GetComponent<BulletController>().SetTargetPos(target.position);
     }
 
     private void UpSize()
