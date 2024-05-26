@@ -1003,10 +1003,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 868607713951283420}
-  - component: {fileID: 4521226254937669861}
-  - component: {fileID: 7603376539487467353}
   m_Layer: 6
-  m_Name: Axe_0
+  m_Name: Weapon Hold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1022,62 +1020,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.53777105, y: -0.07307348, z: -0.49080843, w: 0.68159354}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 39, y: 39, z: 39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2911059129925603191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!33 &4521226254937669861
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4714152982004117657}
-  m_Mesh: {fileID: 4300000, guid: 1c040a6e7d23e904b87e93fb9c66a037, type: 3}
---- !u!23 &7603376539487467353
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4714152982004117657}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 92b3272412f9b0041a774ec59b005180, type: 2}
-  - {fileID: 2100000, guid: 92b3272412f9b0041a774ec59b005180, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4751078398812078374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,7 +1137,7 @@ GameObject:
   - component: {fileID: 1130887915428040857}
   m_Layer: 6
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1204,7 +1151,7 @@ Transform:
   m_GameObject: {fileID: 4800800003934181260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.010452, y: 1, z: 19.958666}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1281,10 +1228,12 @@ MonoBehaviour:
   attackCoolDown: 0
   currentTarget: {fileID: 0}
   isAttack: 0
-  root: {fileID: 8618704863963413441}
+  currentWeapon: {fileID: 11400000, guid: 6731b566eb354c04098f59da3bcff6be, type: 2}
+  weaponHold: {fileID: 868607713951283420}
+  bulletPrefab: {fileID: 0}
   attackRange: 6
-  bulletPrefab: {fileID: 869964357530375720, guid: 4df6d0237de101c4ea7cbdc19febef4e, type: 3}
   attackSpeed: 1.7
+  root: {fileID: 8618704863963413441}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -6,18 +6,6 @@ public class ObjectPooling : Singleton<ObjectPooling>
 {
     [SerializeField] private List<GameObject> pooledObjects = new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void InstantiatePoolObject(GameObject prefabObject)
     {
         //create bullet prefab
@@ -25,6 +13,18 @@ public class ObjectPooling : Singleton<ObjectPooling>
         newPoolObject.SetActive(false);
 
         pooledObjects.Add(newPoolObject);
+    }
+
+    public void DetroyBulletByAttacker(Transform attacker)
+    {
+        foreach (GameObject bullet in pooledObjects)
+        {
+            if(bullet.GetComponent<BulletController>() == attacker)
+            {
+                pooledObjects.Remove(bullet);
+                Destroy(bullet);
+            }
+        }
     }
 
     public GameObject GetPoolObjectByAttacker(Transform attacker, Transform spawnPostion)

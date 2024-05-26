@@ -17,12 +17,15 @@ public class BotController : Character
     // Update is called once per frame
     void Update()
     {
-        if (currentState != null)
+        if (isDeath == false)
         {
-            currentState.OnExecute(this);
+            if (currentState != null)
+            {
+                currentState.OnExecute(this);
+            }
+            DetectTarget();
+            Attack();
         }
-        DetectTarget();
-        Attack();
     }
 
     public void OnPatrol()

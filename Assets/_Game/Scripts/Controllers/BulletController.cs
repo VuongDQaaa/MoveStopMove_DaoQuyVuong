@@ -3,6 +3,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     public Transform attacker;
+    private Transform victim;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float rotateSpeed;
     private Vector3 targetPos = Vector3.zero;
@@ -28,9 +29,15 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.transform != attacker)
+        if(other.CompareTag("Player") || other.CompareTag("Bot"))
         {
             gameObject.SetActive(false);
+            victim = other.transform;
+            if(victim != attacker)
+            {
+                int victimScore = victim.GetComponent<Character>().currentPoint;
+                attacker.GetComponent<Character>().AddScore(victimScore);
+            }
         }
     }
 }

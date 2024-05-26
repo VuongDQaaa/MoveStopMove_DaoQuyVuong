@@ -15,13 +15,16 @@ public class PlayerController : Character
     // Update is called once per frame
     void Update()
     {
-        if (JoyStickController.direction != Vector3.zero)
+        if (isDeath == false)
         {
-            currentRotation = JoyStickController.direction;
+            if (JoyStickController.direction != Vector3.zero)
+            {
+                currentRotation = JoyStickController.direction;
+            }
+            DetectTarget();
+            Attack();
+            MoveCharacter();
         }
-        DetectTarget();
-        Attack();
-        MoveCharacter();
     }
 
     private void MoveCharacter()
@@ -41,7 +44,7 @@ public class PlayerController : Character
         if (Input.GetMouseButtonUp(0))
         {
             isMoving = false;
-            if (isAttack == false) 
+            if (isAttack == false)
             {
                 ChangeAnim(AnimationState.idle);
             }
