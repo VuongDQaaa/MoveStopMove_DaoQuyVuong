@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Data.Common;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -42,6 +41,7 @@ public class Character : MonoBehaviour
         }
         bulletPrefab.GetComponent<BulletController>().attacker = transform;
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
+        Cache.AddCharacter(transform.GetComponent<Collider>(), transform.GetComponent<Character>());
     }
 
     private void EquipWeapon(Weapon weapon)
@@ -84,7 +84,8 @@ public class Character : MonoBehaviour
             foreach (Collider item in targetsInViewRadius)
             {
                 float distance = Vector3.Distance(transform.position, item.transform.position);
-                if (targetDistance > distance && distance > 0.1f && currentTarget == null)
+                if (targetDistance > distance
+                    && item.transform.GetComponent<Character>() != Cache.GetCharacter(transform.GetComponent<Collider>()))
                 {
                     targetDistance = distance;
                     currentTarget = item.transform;
@@ -94,7 +95,6 @@ public class Character : MonoBehaviour
         else
         {
             currentTarget = null;
-            attackCoolDown = 0;
         }
     }
 
@@ -114,7 +114,7 @@ public class Character : MonoBehaviour
             attackCoolDown -= Time.deltaTime;
         }
 
-        if (isAttack == false || attackCoolDown < 0)
+        if (attackCoolDown < 0)
         {
             attackCoolDown = 0;
         }
@@ -123,12 +123,15 @@ public class Character : MonoBehaviour
     private void GenerateBullet(Transform target)
     {
         GameObject bullet = ObjectPooling.Instance.GetPoolObjectByAttacker(transform, root);
-        bullet.GetComponent<BulletController>().SetTargetPos(target.position);
+        if(bullet != null)
+        {
+            bullet.GetComponent<BulletController>().SetTargetPos(target.position);
+        }
     }
 
     protected void UpSize()
     {
-        if(currentPoint >= scoreThreshhold)
+        if (currentPoint >= scoreThreshhold)
         {
             transform.localScale *= sizeIncreaseFactor;
             scoreThreshhold += scoreThreshhold;
@@ -160,7 +163,7 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag(Constant.TAG_BULLET))
         {
             if (other.GetComponent<BulletController>().attacker != transform)
             {

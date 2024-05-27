@@ -29,7 +29,7 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") || other.CompareTag("Bot"))
+        if(other.CompareTag(Constant.TAG_PLAYER) || other.CompareTag(Constant.TAG_BOT))
         {
             gameObject.SetActive(false);
             victim = other.transform;
@@ -38,6 +38,10 @@ public class BulletController : MonoBehaviour
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);
             }
+        }
+        else if(!other.CompareTag(Constant.TAG_BULLET))
+        {
+            gameObject.SetActive(false);
         }
     }
 }

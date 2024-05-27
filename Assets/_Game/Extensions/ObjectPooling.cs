@@ -19,7 +19,7 @@ public class ObjectPooling : Singleton<ObjectPooling>
     {
         foreach (GameObject bullet in pooledObjects)
         {
-            if(bullet.GetComponent<BulletController>() == attacker)
+            if (bullet.GetComponent<BulletController>() == attacker)
             {
                 pooledObjects.Remove(bullet);
                 Destroy(bullet);
@@ -32,22 +32,19 @@ public class ObjectPooling : Singleton<ObjectPooling>
         //search bullet prefabs and active it
         GameObject foudedObject = pooledObjects.FirstOrDefault(x => x.GetComponent<BulletController>().attacker == attacker
                                                                     && !x.activeSelf);
-        if(foudedObject != null)
+        if (foudedObject != null)
         {
             foudedObject.transform.position = spawnPostion.position;
             foudedObject.SetActive(true);
+            return foudedObject;
         }
         else
         {
             //Instntiate if foundedObject = null then put it in pool
             GameObject copyBullet = pooledObjects.FirstOrDefault(x => x.GetComponent<BulletController>().attacker == attacker);
             GameObject newBullet = Instantiate(copyBullet);
-            newBullet.SetActive(false);
             pooledObjects.Add(newBullet);
-
-            GetPoolObjectByAttacker(attacker, spawnPostion);
+            return newBullet;
         }
-
-        return foudedObject;
     }
 }

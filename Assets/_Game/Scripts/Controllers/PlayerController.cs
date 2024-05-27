@@ -3,13 +3,17 @@ using UnityEngine;
 public class PlayerController : Character
 {
     [SerializeField] private float speed = 5f;
+    [SerializeField] private GameObject aiming;
+    [SerializeField] private LayerMask transparentLayer;
     private Vector3 currentRotation;
+    [SerializeField] private Material tranparentMat;
 
     // Start is called before the first frame update
     void Start()
     {
         currentRotation = transform.forward;
         ChangeAnim(AnimationState.idle);
+        aiming.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,6 +28,38 @@ public class PlayerController : Character
             DetectTarget();
             Attack();
             MoveCharacter();
+            ShowAiming();
+            MakeTransparentObject();
+        }
+    }
+
+    private void MakeTransparentObject()
+    {
+        //make object in attackRange become transparent
+        Collider[] objectInViewRadius = Physics.OverlapSphere(transform.position, attackRange, transparentLayer);
+        if(objectInViewRadius.Length > 0)
+        {
+            foreach (Collider item in objectInViewRadius)
+            {
+                Renderer meshRenderer = item.GetComponent<Renderer>();
+                meshRenderer.material = tranparentMat;
+            }
+        }
+    }
+
+    private void ShowAiming()
+    {
+        if(currentTarget != null)
+        {
+            Vector3 aimingPosition = currentTarget.transform.position;
+            aimingPosition.y = 0.1f;
+            aiming.SetActive(true);
+            aiming.transform.position = aimingPosition;
+            aiming.transform.localScale = currentTarget.transform.localScale;
+        }
+        else
+        {
+            aiming.SetActive(false);
         }
     }
 
@@ -32,7 +68,6 @@ public class PlayerController : Character
         if (Input.GetMouseButton(0))
         {
             ChangeAnim(AnimationState.run);
-            currentTarget = null;
             isMoving = true;
             isAttack = false;
             if (JoyStickController.direction != Vector3.zero)

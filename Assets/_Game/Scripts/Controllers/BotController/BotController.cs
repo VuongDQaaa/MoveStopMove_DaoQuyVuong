@@ -31,7 +31,6 @@ public class BotController : Character
     public void OnPatrol()
     {
         //update information before moving
-        currentTarget = null;
         isMoving = true;
         isAttack = false;
 
@@ -75,7 +74,6 @@ public class BotController : Character
 
         if (targetCharacter != null)
         {
-            currentTarget = null;
             ChangeAnim(AnimationState.run);
             isAttack = false;
             isMoving = true;
