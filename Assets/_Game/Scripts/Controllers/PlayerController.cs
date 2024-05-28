@@ -1,12 +1,13 @@
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class PlayerController : Character
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private GameObject aiming;
-    [SerializeField] private LayerMask transparentLayer;
+    [SerializeField] private GameObject transparentZone;
     private Vector3 currentRotation;
-    [SerializeField] private Material tranparentMat;
+    private float fixedScale;
 
     // Start is called before the first frame update
     void Start()
@@ -29,27 +30,26 @@ public class PlayerController : Character
             Attack();
             MoveCharacter();
             ShowAiming();
-            MakeTransparentObject();
+            TransparentZoneControl();
         }
     }
 
-    private void MakeTransparentObject()
+    private void TransparentZoneControl()
     {
-        //make object in attackRange become transparent
-        Collider[] objectInViewRadius = Physics.OverlapSphere(transform.position, attackRange, transparentLayer);
-        if(objectInViewRadius.Length > 0)
-        {
-            foreach (Collider item in objectInViewRadius)
-            {
-                Renderer meshRenderer = item.GetComponent<Renderer>();
-                meshRenderer.material = tranparentMat;
-            }
-        }
+        //control position
+        Vector3 newPos = transform.position;
+        newPos.y = 0.09f;
+        transparentZone.transform.position = newPos;
+
+        //control scale
+        fixedScale = attackRange / Constant.SCALE_TRANSPARENT;
+        Vector3 newScale = new Vector3(fixedScale, fixedScale, fixedScale);
+        transparentZone.transform.localScale = newScale;
     }
 
     private void ShowAiming()
     {
-        if(currentTarget != null)
+        if (currentTarget != null)
         {
             Vector3 aimingPosition = currentTarget.transform.position;
             aimingPosition.y = 0.1f;

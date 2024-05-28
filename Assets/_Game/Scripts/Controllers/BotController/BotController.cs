@@ -72,6 +72,7 @@ public class BotController : Character
             }
         }
 
+        //Bot move to target
         if (targetCharacter != null)
         {
             ChangeAnim(AnimationState.run);
