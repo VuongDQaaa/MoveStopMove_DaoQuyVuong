@@ -10,8 +10,13 @@ public class Character : MonoBehaviour
     [SerializeField] protected bool isDeath;
     private AnimationState currentAnimationState;
 
-    [Header("Current Point")]
+    [Header("Equipments")]
+    public SkinnedMeshRenderer bodyColor;
+    public SkinnedMeshRenderer pantColor;
+
+    [Header("Character Infor")]
     public int currentPoint = 1;
+    public string characterName = "Default";
     private int scoreThreshhold = 10;
     private float sizeIncreaseFactor = 1.1f;
     private float rangeIncreaseFactor = 1.1f;
@@ -121,7 +126,11 @@ public class Character : MonoBehaviour
         {
             weaponHold.gameObject.SetActive(true);
         }
-        UpdateAttackAnimSpeed();
+
+        if (!isDeath)
+        {
+            UpdateAttackAnimSpeed();
+        }
     }
 
     public void AttackEvent()
@@ -175,9 +184,14 @@ public class Character : MonoBehaviour
         }
         else
         {
-            currentPoint += victimScore - currentPoint;
+            currentPoint += victimScore;
         }
         UpSize();
+    }
+
+    public bool IsDeath()
+    {
+        return isDeath;
     }
 
     protected void ChangeAnim(AnimationState animationState)

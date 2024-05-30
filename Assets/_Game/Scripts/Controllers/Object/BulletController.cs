@@ -37,8 +37,9 @@ public class BulletController : MonoBehaviour
             //disable bullet if it hit character(player/bot)
             gameObject.SetActive(false);
             victim = other.transform;
+            Character currentVictim = victim.transform.GetComponent<Character>();
             //if bullet hit other character => vitim die and update score for attacker
-            if(victim != attacker)
+            if(victim != attacker && !currentVictim.IsDeath())
             {
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class PlayerController : Character
@@ -6,12 +5,19 @@ public class PlayerController : Character
     [SerializeField] private float speed = 5f;
     [SerializeField] private GameObject aiming;
     [SerializeField] private GameObject transparentZone;
+    [SerializeField] private Material playerColor;
     private Vector3 currentRotation;
     private float fixedScale;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Update infor
+        characterName = "You";
+        bodyColor.material = playerColor;
+        pantColor.material = playerColor;
+
+        //
         currentRotation = transform.forward;
         ChangeAnim(AnimationState.idle);
         aiming.SetActive(false);
