@@ -4,28 +4,29 @@ public class PlayerController : Character
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private GameObject aiming;
-    [SerializeField] private GameObject transparentZone;
+    [SerializeField] private GameObject zonePrefabs;
+    private GameObject transparentZone;
     [SerializeField] private Material playerColor;
     private Vector3 currentRotation;
+    private Vector3 currentScale;
     private float fixedScale;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Update infor
-        characterName = "You";
-        bodyColor.material = playerColor;
-        pantColor.material = playerColor;
-
-        //
-        currentRotation = transform.forward;
-        ChangeAnim(AnimationState.idle);
-        aiming.SetActive(false);
+        OnInit();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Update cam when player upsize
+        if(transform.localScale != currentScale)
+        {
+            CameraController.Instance.ChangeOffSet();
+            currentScale = transform.localScale;
+        }
+
         if (isDeath == false)
         {
             if (JoyStickController.direction != Vector3.zero)
@@ -38,6 +39,25 @@ public class PlayerController : Character
             ShowAiming();
             TransparentZoneControl();
         }
+    }
+
+    private void OnInit()
+    {
+        //Update infor
+        characterName = "You";
+        currentPoint = 0;
+        bodyColor.material = playerColor;
+        pantColor.material = playerColor;
+        currentScale = transform.localScale;
+
+        //
+        currentRotation = transform.forward;
+        ChangeAnim(AnimationState.idle);
+        aiming.SetActive(false);
+
+        //spawn transparent zone
+        GameObject spawnedTransparentZone = Instantiate(zonePrefabs);
+        transparentZone = spawnedTransparentZone;
     }
 
     private void TransparentZoneControl()
@@ -71,7 +91,7 @@ public class PlayerController : Character
 
     private void MoveCharacter()
     {
-        if (Input.GetMouseButton(0))
+        if (JoyStickController.direction != Vector3.zero)
         {
             ChangeAnim(AnimationState.run);
             isMoving = true;
@@ -82,7 +102,7 @@ public class PlayerController : Character
                 transform.position = CheckGrounded(newPostion);
             }
         }
-        if (Input.GetMouseButtonUp(0))
+        if (JoyStickController.direction == Vector3.zero)
         {
             isMoving = false;
             if (isAttack == false)

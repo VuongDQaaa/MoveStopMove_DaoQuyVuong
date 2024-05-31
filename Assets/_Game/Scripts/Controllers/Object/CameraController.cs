@@ -1,31 +1,48 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Singleton<CameraController>
 {
     [SerializeField] private Transform currentTarget;
-    //[SerializeField] private float smoothSpeed = 0.125f;
+    [SerializeField] private float smoothSpeed = 0.125f;
     [SerializeField] private Vector3 offset;
+    [SerializeField] private Vector3 startOffset;
 
-    void Update()
+    void LateUpdate()
     {
         if (currentTarget != null)
         {
-            Vector3 desiredPosition = currentTarget.position + offset;
-            //Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            transform.position = desiredPosition;
+            if (GameManager.Instance.currentGameState == GameState.Playing)
+            {
+                Vector3 desiredPosition = currentTarget.position + offset;
+                Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+                transform.position = smoothedPosition;
 
-            transform.LookAt(currentTarget.position);
+                transform.LookAt(currentTarget.position);
+            }
+            else
+            {
+                CameraStartMode();
+            }
         }
     }
 
-    public void SetTarGet(GameObject target)
+    private void CameraStartMode()
+    {
+        //move camera near player when game start
+        Vector3 camPos = currentTarget.position + startOffset;
+        transform.position = camPos;
+        transform.LookAt(currentTarget.position);
+    }
+
+    public void SetCamTarget(GameObject target)
     {
         currentTarget = target.transform;
     }
 
-    public void DeleteTarget()
+    public void ChangeOffSet()
     {
-        currentTarget = null;
+        offset.y += 2;
+        offset.z -= 2f;
     }
 }
 

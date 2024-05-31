@@ -11,15 +11,16 @@ public class Character : MonoBehaviour
     private AnimationState currentAnimationState;
 
     [Header("Equipments")]
-    public SkinnedMeshRenderer bodyColor;
-    public SkinnedMeshRenderer pantColor;
+    [SerializeField] protected SkinnedMeshRenderer bodyColor;
+    [SerializeField] protected SkinnedMeshRenderer pantColor;
 
     [Header("Character Infor")]
-    public int currentPoint = 1;
+    public int currentPoint;
     public string characterName = "Default";
     private int scoreThreshhold = 10;
     private float sizeIncreaseFactor = 1.1f;
     private float rangeIncreaseFactor = 1.1f;
+    [SerializeField] protected MapController currentMap;
 
     [Header("Attack")]
     [SerializeField] private LayerMask attackLayer;
@@ -49,6 +50,11 @@ public class Character : MonoBehaviour
         bulletPrefab.GetComponent<BulletController>().attacker = transform;
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
         Cache.AddCharacter(transform.GetComponent<Collider>(), transform.GetComponent<Character>());
+    }
+
+    public void SetCurrentMap(Transform map)
+    {
+        currentMap = map.GetComponent<MapController>();
     }
 
     private void EquipWeapon(Weapon weapon)
@@ -194,6 +200,11 @@ public class Character : MonoBehaviour
         return isDeath;
     }
 
+    public Color GetCharacterColor()
+    {
+        return bodyColor.material.color;
+    }
+
     protected void ChangeAnim(AnimationState animationState)
     {
         if (currentAnimationState != animationState)
@@ -215,6 +226,6 @@ public class Character : MonoBehaviour
         ObjectPooling.Instance.DetroyBulletByAttacker(transform);
         ChangeAnim(AnimationState.die);
         yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.RemoveCharacter(gameObject);
+        currentMap.RemoveCharacter(transform.gameObject);
     }
 }

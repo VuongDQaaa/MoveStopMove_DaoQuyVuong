@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CanvasMainMenu : UICanvas
 {
     [SerializeField] private Button ADSButton, vibrationButton, soundButton, weaponButton, skinButton, playButton;
     [SerializeField] private Image vibrationActive, soundActive, vibractionDeactive, soundDeactive;
+    [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private GameObject[] leftElements;
     [SerializeField] private GameObject[] rightElements;
 
     [Header("UI praremeter")]
     [SerializeField] private float UITransactionSpeed;
-    private bool isMoved;
+    private bool UIMoved;
     [SerializeField] private GameObject lefDirection, rightDirection;
 
     private void OnEnable()
@@ -25,12 +27,13 @@ public class CanvasMainMenu : UICanvas
 
     private void Awake()
     {
-        isMoved = false;
+        UIMoved = false;
     }
 
     private void Update()
     {
         MoveUIElement();
+        goldText.text = GameManager.Instance.GetGold().ToString();
     }
 
     private void OnDisable()
@@ -88,13 +91,15 @@ public class CanvasMainMenu : UICanvas
 
     private void PlayButton()
     {
-        isMoved = true;
-        UIManager.Instance.CloseUI<CanvasMainMenu>(0);
+        UIMoved = true;
+        GameManager.Instance.currentGameState = GameState.Playing;
+        Close(1.5f);
+        UIManager.Instance.OpenUI<CanvasGamePlay>();
     }
 
     private void MoveUIElement()
     {
-        if (isMoved == true)
+        if (UIMoved == true)
         {
             foreach (GameObject item in leftElements)
             {

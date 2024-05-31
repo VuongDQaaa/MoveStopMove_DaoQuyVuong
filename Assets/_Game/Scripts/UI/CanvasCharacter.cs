@@ -17,15 +17,25 @@ public class CanvasCharacter : MonoBehaviour
 
     void Update()
     {
-        transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.transform.position);
-        UpdateCanvas();
+        if (GameManager.Instance.currentGameState == GameState.Playing)
+        {
+            characterName.gameObject.SetActive(true);
+            pointImage.gameObject.SetActive(true);
+            transform.rotation = Quaternion.LookRotation(transform.position - mainCamera.transform.position);
+            UpdateCanvas();
+        }
+        else
+        {
+            characterName.gameObject.SetActive(false);
+            pointImage.gameObject.SetActive(false);
+        }
     }
 
     private void UpdateCanvas()
     {
         characterName.text = currentCharacter.characterName;
-        characterName.color = currentCharacter.bodyColor.material.color;
+        characterName.color = currentCharacter.GetCharacterColor();
         characterPoint.text = currentCharacter.currentPoint.ToString();
-        pointImage.color = currentCharacter.bodyColor.material.color;
+        pointImage.color = currentCharacter.GetCharacterColor();
     }
 }

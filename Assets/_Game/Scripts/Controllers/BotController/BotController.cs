@@ -7,9 +7,11 @@ public class BotController : Character
     private IState currentState;
     private float maxMovingRange;
     private Transform targetCharacter;
+
     // Start is called before the first frame update
     void Start()
     {
+        OnInit();
         agent = GetComponent<NavMeshAgent>();
         ChangeState(new StopState());
     }
@@ -17,7 +19,7 @@ public class BotController : Character
     // Update is called once per frame
     void Update()
     {
-        if (isDeath == false)
+        if (isDeath == false && GameManager.Instance.currentGameState == GameState.Playing)
         {
             if (currentState != null)
             {
@@ -26,6 +28,28 @@ public class BotController : Character
             DetectTarget();
             Attack();
         }
+    }
+
+    private void OnInit()
+    {
+        //Update bot information before spawn
+        int random = Random.Range(0, Constant.BOT_NAMES.Length - 1);
+        characterName = Constant.BOT_NAMES[random];
+        currentPoint = 0;
+
+        //Update bot color
+        Color botColor = GetRandomColor();
+        bodyColor.material.color = botColor;
+        pantColor.material.color = botColor;
+    }
+
+    private Color GetRandomColor()
+    {
+        float r = Random.Range(0f, 1f);
+        float g = Random.Range(0f, 1f);
+        float b = Random.Range(0f, 1f);
+        float a = 1f;
+        return new Color(r, g, b, a);
     }
 
     public void OnPatrol()
@@ -62,7 +86,7 @@ public class BotController : Character
     {
         //find the nearest character on the map
         float distance = Mathf.Infinity;
-        foreach (GameObject item in GameManager.Instance.currentCharacter)
+        foreach (GameObject item in currentMap.currentCharacters)
         {
             float TargetDistance = Vector3.Distance(transform.position, item.transform.position);
             if (TargetDistance > 0.1f && TargetDistance < distance)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JoyStickController : MonoBehaviour
+public class JoyStickController : UICanvas
 {
     public static Vector3 direction;
     public static float verticalInput;
