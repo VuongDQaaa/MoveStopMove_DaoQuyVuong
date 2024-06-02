@@ -769,6 +769,7 @@ MonoBehaviour:
   pantColor: {fileID: 8279617541570810043}
   currentPoint: 0
   characterName: Default
+  currentMap: {fileID: 0}
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -783,7 +784,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  currentMap: {fileID: 0}
   agent: {fileID: 3507305525655645986}
 --- !u!195 &3507305525655645986
 NavMeshAgent:

@@ -19,6 +19,7 @@ public class MapController : MonoBehaviour
     {
         botSpawnedCount = 0;
         spawnPostionIndex = 0;
+        Alived = botLimit;
         SpawnPlayer();
         StartCoroutine(SpawnBot());
     }

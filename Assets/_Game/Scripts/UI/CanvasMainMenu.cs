@@ -6,11 +6,11 @@ public class CanvasMainMenu : UICanvas
 {
     [SerializeField] private Button ADSButton, vibrationButton, soundButton, weaponButton, skinButton, playButton;
     [SerializeField] private Image vibrationActive, soundActive, vibractionDeactive, soundDeactive;
-    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI goldText, inforText;
     [SerializeField] private GameObject[] leftElements;
     [SerializeField] private GameObject[] rightElements;
 
-    [Header("UI praremeter")]
+    [Header("UI pararemeters")]
     [SerializeField] private float UITransactionSpeed;
     private bool UIMoved;
     [SerializeField] private GameObject lefDirection, rightDirection;
@@ -34,6 +34,7 @@ public class CanvasMainMenu : UICanvas
     {
         MoveUIElement();
         goldText.text = GameManager.Instance.GetGold().ToString();
+        inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
     }
 
     private void OnDisable()

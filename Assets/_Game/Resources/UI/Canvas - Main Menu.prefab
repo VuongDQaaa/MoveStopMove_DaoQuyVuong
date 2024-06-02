@@ -127,6 +127,7 @@ MonoBehaviour:
   vibractionDeactive: {fileID: 4172170530317924772}
   soundDeactive: {fileID: 626443926962966388}
   goldText: {fileID: 5819085701157176214}
+  inforText: {fileID: 8953979978154199264}
   leftElements:
   - {fileID: 3479910693549669321}
   - {fileID: 8518827259508638618}

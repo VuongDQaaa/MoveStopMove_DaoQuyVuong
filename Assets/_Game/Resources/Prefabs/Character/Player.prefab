@@ -462,7 +462,7 @@ MonoBehaviour:
   isDeath: 0
   bodyColor: {fileID: 4773431898840227580}
   pantColor: {fileID: 1867076890553399795}
-  currentPoint: 9
+  currentPoint: 0
   characterName: Default
   currentMap: {fileID: 0}
   attackLayer:
@@ -482,7 +482,6 @@ MonoBehaviour:
   speed: 5
   aiming: {fileID: 7642722750683192275}
   zonePrefabs: {fileID: 7564929319702397490, guid: 3ff1cbeb1191a774eb5d533dcd5d0205, type: 3}
-  transparentZone: {fileID: 0}
   playerColor: {fileID: 2100000, guid: 3689bcc59a4801940ac6bf1e40868e0f, type: 2}
 --- !u!1 &1893347340858772002
 GameObject:

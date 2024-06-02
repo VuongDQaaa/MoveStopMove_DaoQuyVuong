@@ -10,7 +10,7 @@ public class FindTargetState : IState
         if(bot.agent.remainingDistance <= bot.attackRange - 0.5f)
         {
             bot.ChangeState(new StopState());
-        }        
+        }     
     }
 
     public void OnExit(BotController bot)

@@ -26,7 +26,10 @@ public class JoyStickController : UICanvas
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
+        if(GameManager.Instance.currentGameState == GameState.Playing)
+        {
+            HandleInput();
+        }
     }
 
     private void HandleInput()

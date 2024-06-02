@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class CanvasGamePlay : UICanvas
 {
-    private int aliveNum = 0;
     [SerializeField] private Button settingButton;
     [SerializeField] private TextMeshProUGUI aliveText;
 
@@ -20,22 +19,22 @@ public class CanvasGamePlay : UICanvas
 
     private void Update()
     {
-        UpdateAliveText(aliveNum);
-    }
-
-    public void SetAliveNum(int number)
-    {
-        aliveNum = number;
+        UpdateAliveText();
+        if(GameManager.Instance.currentGameState == GameState.Start)
+        {
+            Close(0);
+        }
     }
 
     private void SettingButton()
     {
-        Debug.Log("Setting button");
+        GameManager.Instance.currentGameState = GameState.Pause;
+        UIManager.Instance.OpenUI<CanvasSetting>();
     }
 
-    private void UpdateAliveText(int alive)
+    private void UpdateAliveText()
     {
         //get alive character on current map
-        aliveText.text = alive.ToString();
+        aliveText.text = GameManager.Instance.GetAliveCharacter().ToString();
     }
 }

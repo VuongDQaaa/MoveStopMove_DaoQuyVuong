@@ -11,7 +11,7 @@ public class CameraController : Singleton<CameraController>
     {
         if (currentTarget != null)
         {
-            if (GameManager.Instance.currentGameState == GameState.Playing)
+            if (GameManager.Instance.currentGameState != GameState.Start)
             {
                 Vector3 desiredPosition = currentTarget.position + offset;
                 Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);

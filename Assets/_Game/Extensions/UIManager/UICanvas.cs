@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UICanvas : MonoBehaviour
 {
-    [SerializeField] private bool destroyOnClose = false;
+    [SerializeField] private bool destroyOnClose = true;
 
     private void Awake()
     {

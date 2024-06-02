@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GameState
@@ -10,15 +11,45 @@ public enum GameState
 public class GameManager : Singleton<GameManager>
 {
     public GameState currentGameState;
+    [SerializeField] private MapController mapController;
+    [SerializeField] private MapData currentMap;
 
     void Awake()
     {
+        currentMap = LevelManager.Instance.GetMapData();
         UIManager.Instance.OpenUI<CanvasMainMenu>();
     }
 
     void Start()
     {
         currentGameState = GameState.Start;
+        SpawnMap();
+    }
+
+    void Update()
+    {
+        if (currentGameState == GameState.Pause)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    public int GetAliveCharacter()
+    {
+        return mapController.GetAlived();
+    }
+
+    private void SpawnMap()
+    {
+        if(currentMap != null)
+        {
+            mapController = Instantiate(currentMap.GetMapPrefab()).gameObject.GetComponent<MapController>();
+            Instantiate(currentMap.GetNavMeshSurface());
+        }
     }
 
     public void SaveGold(int gold)

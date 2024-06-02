@@ -6,6 +6,7 @@ public static class Constant
     public const string TAG_TRANSPARENT = "Transparent";
     public const float SCALE_TRANSPARENT = 1.25f;
     public const string PLAYERFREFS_KEY_GOLD = "PlayerGold";
+    public const string PLAYERFREFS_KEY_LEVEL = "Map Level";
     public static readonly string[] BOT_NAMES = { "ShadowHunter", "MysticWarrior", "DragonSlayer", "NightStalker", "StormBringer",
     "PhoenixRider", "IceWizard", "FireMage", "ThunderLord", "SilentAssassin",
     "DarkKnight", "GhostRider", "BladeMaster", "LightningBolt", "SilverArrow",
