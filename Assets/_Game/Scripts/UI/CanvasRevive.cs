@@ -14,6 +14,7 @@ public class CanvasRevive : UICanvas
 
     private void OnEnable()
     {
+        countDownTime = timeLimit;
         closeButton.onClick.AddListener(CloseButton);
         reviveGoldButton.onClick.AddListener(ReviveGoldButton);
         reviveADSButton.onClick.AddListener(ReviveADSButton);
@@ -30,8 +31,11 @@ public class CanvasRevive : UICanvas
     void Update()
     {
         SpinImage();
-        UpdateCountDown();
-        if(countDownTime <= 0.2f)
+        if(countDownTime > 0)
+        {
+            UpdateCountDown();
+        }
+        else
         {
             Close(0);
             UIManager.Instance.OpenUI<CanvasDie>();
@@ -40,31 +44,33 @@ public class CanvasRevive : UICanvas
 
     private void UpdateCountDown()
     {
-        if (countDownTime > 0)
-        {
-            countDownTime -= Time.deltaTime;
-            int time = (int)countDownTime;
-            countDownText.text = time.ToString();
-        }
-        else
-        {
-            countDownTime = timeLimit;
-        }
+        countDownTime -= Time.deltaTime;
+        int time = (int)countDownTime;
+        countDownText.text = time.ToString();
     }
 
     private void SpinImage()
     {
-        circleImage.gameObject.transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+        circleImage.gameObject.transform.Rotate(Vector3.forward * -rotateSpeed * Time.deltaTime);
     }
-    
+
     private void CloseButton()
     {
+        countDownTime = 0;
         Close(0);
         UIManager.Instance.OpenUI<CanvasDie>();
     }
 
     private void ReviveGoldButton()
-    { }
+    {
+        if(GameManager.Instance.GetGold() >= 150)
+        {
+            reviveGoldButton.gameObject.SetActive(true);
+            GameManager.Instance.UpdateGold(-150);
+            GameManager.Instance.RevivePlayer();
+            Close(0);
+        }
+    }
 
     private void ReviveADSButton()
     { }

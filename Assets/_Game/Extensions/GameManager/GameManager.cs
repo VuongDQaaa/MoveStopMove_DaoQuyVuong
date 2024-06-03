@@ -5,7 +5,6 @@ public enum GameState
 {
     Start,
     Playing,
-    Die,
     Pause
 }
 public class GameManager : Singleton<GameManager>
@@ -14,6 +13,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private MapController mapController;
     [SerializeField] private MapData currentMap;
     private int currentGold;
+    private int rewardGold;
+    private int currentRank;
+    private string killerName;
 
     void Awake()
     {
@@ -29,6 +31,27 @@ public class GameManager : Singleton<GameManager>
         else
         {
             Time.timeScale = 1;
+        }
+        currentRank = mapController.GetAlived();
+        UpdateReward();
+    }
+    private void UpdateReward()
+    {
+        if (currentRank == 1)
+        {
+            rewardGold = 50;
+        }
+        else if (currentRank <= 5 && currentRank > 1)
+        {
+            rewardGold = 20;
+        }
+        else if (currentRank <= 20 && currentRank > 5)
+        {
+            rewardGold = 10;
+        }
+        else
+        {
+            rewardGold = 1;
         }
     }
 
@@ -62,7 +85,7 @@ public class GameManager : Singleton<GameManager>
         if (currentMap != null)
         {
             mapController = Instantiate(currentMap.GetMapPrefab()).gameObject.GetComponent<MapController>();
-            Instantiate(currentMap.GetNavMeshSurface());
+            Instantiate(currentMap.GetNavMeshSurface(), mapController.transform);
         }
     }
 
@@ -72,10 +95,11 @@ public class GameManager : Singleton<GameManager>
         if (mapController != null)
         {
             Destroy(mapController.gameObject);
+            mapController = null;
         }
     }
 
-    public void SaveGold(int gold)
+    public void UpdateGold(int gold)
     {
         currentGold += gold;
         PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, currentGold);
@@ -92,6 +116,31 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(ShowRevieUI());
     }
 
+    public void RevivePlayer()
+    {
+        mapController.SpawnPlayer();
+    }
+
+    public int GetRank()
+    {
+        return currentRank;
+    }
+
+    public int GetReward()
+    {
+        return rewardGold;
+    }
+
+    public void UpdateKillerName(string name)
+    {
+        killerName = name;
+    }
+
+    public string GetKillerName()
+    {
+        return killerName;
+    }
+    
     IEnumerator ShowRevieUI()
     {
         yield return new WaitForSeconds(1.2f);

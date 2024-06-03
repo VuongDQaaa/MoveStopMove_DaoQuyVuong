@@ -44,6 +44,12 @@ public class BulletController : MonoBehaviour
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);
                 victim.GetComponent<Character>().OnDie();
+                //Update Player's killer name
+                if(victim.gameObject.tag == Constant.TAG_PLAYER)
+                {
+                    GameManager.Instance.UpdateKillerName(attacker.GetComponent<Character>().characterName);
+                    GameManager.Instance.GetReviveUI();
+                }
             }
         }
         else if(!other.CompareTag(Constant.TAG_BULLET) 

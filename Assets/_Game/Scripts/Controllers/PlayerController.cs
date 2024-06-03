@@ -39,10 +39,11 @@ public class PlayerController : Character
             ShowAiming();
             TransparentZoneControl();
         }
-        else
-        {
-            GameManager.Instance.GetReviveUI();
-        }
+    }
+
+    void OnDestroy()
+    {
+        Destroy(transparentZone);        
     }
 
     private void OnInit()
@@ -68,18 +69,13 @@ public class PlayerController : Character
     {
         //control position
         Vector3 newPos = transform.position;
-        newPos.y = 0.09f;
+        newPos.y = 0.00009f;
         transparentZone.transform.position = newPos;
 
         //control scale
         fixedScale = attackRange / Constant.SCALE_TRANSPARENT;
         Vector3 newScale = new Vector3(fixedScale, fixedScale, fixedScale);
         transparentZone.transform.localScale = newScale;
-
-        if(isDeath == true)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void ShowAiming()

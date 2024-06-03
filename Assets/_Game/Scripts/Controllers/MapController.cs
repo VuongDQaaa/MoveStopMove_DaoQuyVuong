@@ -19,7 +19,7 @@ public class MapController : MonoBehaviour
     {
         botSpawnedCount = 0;
         spawnPostionIndex = 0;
-        Alived = botLimit;
+        Alived = botLimit + 1;
         SpawnPlayer();
         StartCoroutine(SpawnBot());
     }
@@ -40,7 +40,7 @@ public class MapController : MonoBehaviour
         return Alived;
     }
 
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         //spawn player
         GameObject player = Instantiate(playerPrefab, transform);

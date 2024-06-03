@@ -500,13 +500,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 17
+  m_fontStyle: 9
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -893,7 +893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2271536902982865881
 RectTransform:
   m_ObjectHideFlags: 0
@@ -989,7 +989,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e845bd209ce669b47bdaf539aeeca974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnClose: 1
+  destroyOnClose: 0
+  continueButton: {fileID: 2962995568352853909}
+  rattingText: {fileID: 1091471562103277761}
+  killerNameText: {fileID: 3729137830890060891}
+  goldText: {fileID: 4450754228116240432}
 --- !u!1 &6194656296980190186
 GameObject:
   m_ObjectHideFlags: 0
