@@ -47,4 +47,13 @@ public class ObjectPooling : Singleton<ObjectPooling>
             return newBullet;
         }
     }
+
+    public void ClearPool()
+    {
+        foreach (GameObject bullet in pooledObjects)
+        {
+            Destroy(bullet);
+        }
+        pooledObjects.Clear();
+    }
 }

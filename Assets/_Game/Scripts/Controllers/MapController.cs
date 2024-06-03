@@ -15,7 +15,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private int Alived;
     private int spawnPostionIndex;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         botSpawnedCount = 0;
         spawnPostionIndex = 0;
@@ -43,7 +43,7 @@ public class MapController : MonoBehaviour
     private void SpawnPlayer()
     {
         //spawn player
-        GameObject player = Instantiate(playerPrefab);
+        GameObject player = Instantiate(playerPrefab, transform);
         currentCharacters.Add(player);
         player.GetComponent<PlayerController>().SetCurrentMap(transform);
 
@@ -67,7 +67,7 @@ public class MapController : MonoBehaviour
                 if (spawnPostionIndex < spawnPostions.Count)
                 {
                     //Create bot from prefab
-                    GameObject newBot = Instantiate(botPrefab);
+                    GameObject newBot = Instantiate(botPrefab, transform);
 
                     //Add bot into list
                     currentCharacters.Add(newBot);

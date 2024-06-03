@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attacker: {fileID: 0}
-  bulletSpeed: 8
+  bulletSpeed: 10
   rotateSpeed: 20
 --- !u!65 &4733975539952936130
 BoxCollider:

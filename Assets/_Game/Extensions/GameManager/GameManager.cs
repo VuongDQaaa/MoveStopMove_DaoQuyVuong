@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 
 public enum GameState
 {
     Start,
     Playing,
+    Die,
     Pause
 }
 public class GameManager : Singleton<GameManager>
@@ -13,17 +13,11 @@ public class GameManager : Singleton<GameManager>
     public GameState currentGameState;
     [SerializeField] private MapController mapController;
     [SerializeField] private MapData currentMap;
+    private int currentGold;
 
     void Awake()
     {
-        currentMap = LevelManager.Instance.GetMapData();
-        UIManager.Instance.OpenUI<CanvasMainMenu>();
-    }
-
-    void Start()
-    {
-        currentGameState = GameState.Start;
-        SpawnMap();
+        OnInit();
     }
 
     void Update()
@@ -38,46 +32,69 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void OnInit()
+    {
+        //Update map
+        currentMap = LevelManager.Instance.GetMapData();
+        //Open main menu UI
+        UIManager.Instance.OpenUI<CanvasMainMenu>();
+        //Update gold
+        if (!PlayerPrefs.HasKey(Constant.PLAYERFREFS_KEY_GOLD))
+        {
+            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, 0);
+            currentGold = 0;
+        }
+        else
+        {
+            currentGold = PlayerPrefs.GetInt(Constant.PLAYERFREFS_KEY_GOLD);
+        }
+        currentGameState = GameState.Start;
+    }
+
     public int GetAliveCharacter()
     {
         return mapController.GetAlived();
     }
 
-    private void SpawnMap()
+    public void SpawnMap()
     {
-        if(currentMap != null)
+        //spawn map based on current level
+        if (currentMap != null)
         {
             mapController = Instantiate(currentMap.GetMapPrefab()).gameObject.GetComponent<MapController>();
             Instantiate(currentMap.GetNavMeshSurface());
         }
     }
 
+    public void ClearMap()
+    {
+        //clear current map
+        if (mapController != null)
+        {
+            Destroy(mapController.gameObject);
+        }
+    }
+
     public void SaveGold(int gold)
     {
-        if (!PlayerPrefs.HasKey(Constant.PLAYERFREFS_KEY_GOLD))
-        {
-            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, 0);
-            PlayerPrefs.Save();
-        }
-        else
-        {
-            int currentGold = PlayerPrefs.GetInt(Constant.PLAYERFREFS_KEY_GOLD);
-            currentGold += gold;
-            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, currentGold);
-            PlayerPrefs.Save();
-        }
-        Debug.Log("save:" + gold);
+        currentGold += gold;
+        PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, currentGold);
+        PlayerPrefs.Save();
     }
 
     public int GetGold()
     {
-        if (!PlayerPrefs.HasKey(Constant.PLAYERFREFS_KEY_GOLD))
-        {
-            return 0;
-        }
-        else
-        {
-            return PlayerPrefs.GetInt(Constant.PLAYERFREFS_KEY_GOLD);
-        }
+        return currentGold;
+    }
+
+    public void GetReviveUI()
+    {
+        StartCoroutine(ShowRevieUI());
+    }
+
+    IEnumerator ShowRevieUI()
+    {
+        yield return new WaitForSeconds(1.2f);
+        UIManager.Instance.OpenUI<CanvasRevive>();
     }
 }

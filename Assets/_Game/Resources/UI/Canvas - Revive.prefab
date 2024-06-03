@@ -325,6 +325,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15395d5902a5340b88e4be63c655ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnClose: 1
+  closeButton: {fileID: 2003156428492006208}
+  reviveGoldButton: {fileID: 1076547531580525729}
+  reviveADSButton: {fileID: 5184509413374051942}
+  countDownText: {fileID: 6178932970255041977}
+  circleImage: {fileID: 2298375718717924309}
+  countDownTime: 0
+  timeLimit: 10
+  rotateSpeed: 150
 --- !u!1 &2368578139160161375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,8 +1422,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288055938
-  m_fontColor: {r: 0.50980395, g: 0.5411765, b: 0.5882353, a: 1}
+    rgba: 4278240817
+  m_fontColor: {r: 0.19215688, g: 0.77647066, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

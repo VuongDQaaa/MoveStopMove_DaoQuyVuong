@@ -39,6 +39,10 @@ public class PlayerController : Character
             ShowAiming();
             TransparentZoneControl();
         }
+        else
+        {
+            GameManager.Instance.GetReviveUI();
+        }
     }
 
     private void OnInit()
@@ -56,7 +60,7 @@ public class PlayerController : Character
         aiming.SetActive(false);
 
         //spawn transparent zone
-        GameObject spawnedTransparentZone = Instantiate(zonePrefabs);
+        GameObject spawnedTransparentZone = Instantiate(zonePrefabs, currentMap.transform);
         transparentZone = spawnedTransparentZone;
     }
 
@@ -71,6 +75,11 @@ public class PlayerController : Character
         fixedScale = attackRange / Constant.SCALE_TRANSPARENT;
         Vector3 newScale = new Vector3(fixedScale, fixedScale, fixedScale);
         transparentZone.transform.localScale = newScale;
+
+        if(isDeath == true)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void ShowAiming()

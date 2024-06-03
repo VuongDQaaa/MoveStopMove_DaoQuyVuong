@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c87512b2460ff24a837b1fe2a4eefb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyOnClose: 0
   joystick: {fileID: 3028202045427710749}
   bg: {fileID: 8420718893923568364}
   knob: {fileID: 3180663633308912473}

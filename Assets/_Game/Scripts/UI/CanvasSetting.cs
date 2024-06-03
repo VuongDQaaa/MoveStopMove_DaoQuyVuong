@@ -35,6 +35,8 @@ public class CanvasSetting : UICanvas
     private void HomeButton()
     {
         Close(0);
+        ObjectPooling.Instance.ClearPool();
+        GameManager.Instance.ClearMap();
         GameManager.Instance.currentGameState = GameState.Start;
         UIManager.Instance.OpenUI<CanvasMainMenu>();
     }

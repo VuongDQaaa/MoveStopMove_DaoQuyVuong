@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4815786423578497840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -137,9 +137,11 @@ MonoBehaviour:
   - {fileID: 6543730771422332847}
   - {fileID: 331875618098509014}
   - {fileID: 5901587373674670944}
-  UITransactionSpeed: 20
+  UITransactionSpeed: 40
   lefDirection: {fileID: 6855439191322667897}
   rightDirection: {fileID: 785079785808823329}
+  leftOriginPos: []
+  rightOriginPos: []
 --- !u!1 &310797881643180671
 GameObject:
   m_ObjectHideFlags: 0
