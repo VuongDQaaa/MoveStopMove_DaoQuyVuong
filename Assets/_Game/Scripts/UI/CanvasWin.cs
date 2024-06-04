@@ -2,21 +2,19 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasDie : UICanvas
+public class CanvasWin : UICanvas
 {
     [SerializeField] private Button continueButton;
-    [SerializeField] private TextMeshProUGUI rattingText, killerNameText, goldText;
-
+    [SerializeField] private TextMeshProUGUI goldText;
     private void OnEnable()
     {
         continueButton.onClick.AddListener(ContinueButton);
-        rattingText.text = "#" + GameManager.Instance.GetRankInfor().ToString();
         goldText.text = GameManager.Instance.GetRewardInfor().ToString();
-        killerNameText.text = GameManager.Instance.GetKillerName();
         GameManager.Instance.UpdateGold(GameManager.Instance.GetRewardInfor());
+        //LevelManager.Instance.UpdateMapLevel();
     }
 
-    private void OnDisable()
+    private void OnDisable() 
     {
         continueButton.onClick.RemoveAllListeners();
     }

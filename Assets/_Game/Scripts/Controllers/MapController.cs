@@ -14,14 +14,21 @@ public class MapController : MonoBehaviour
     [SerializeField] private int botSpawnedCount;
     [SerializeField] private int Alived;
     private int spawnPostionIndex;
+    private bool showWinUI;
     // Start is called before the first frame update
     void Awake()
     {
+        showWinUI = false;
         botSpawnedCount = 0;
         spawnPostionIndex = 0;
         Alived = botLimit + 1;
         SpawnPlayer();
         StartCoroutine(SpawnBot());
+    }
+
+    void Update()
+    {
+        ShowWinUI();
     }
 
     public void RemoveCharacter(GameObject character)
@@ -40,7 +47,31 @@ public class MapController : MonoBehaviour
         return Alived;
     }
 
-    public void SpawnPlayer()
+    private bool IsVictory()
+    {
+        //Check Win condition (Only player alive)
+        GameObject foundedPlayer = currentCharacters.Find(player => player.gameObject.tag == Constant.TAG_PLAYER);
+        if(Alived == 1 && foundedPlayer != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void ShowWinUI()
+    {
+        //Open win UI when player win
+        if(IsVictory() && showWinUI == false && GameManager.Instance.currentGameState == GameState.Playing)
+        {
+            UIManager.Instance.OpenUI<CanvasWin>();
+            showWinUI = true;
+        }
+    }
+    
+    private void SpawnPlayer()
     {
         //spawn player
         GameObject player = Instantiate(playerPrefab, transform);
@@ -52,6 +83,24 @@ public class MapController : MonoBehaviour
         spawPos.y = 1;
         player.transform.position = spawPos;
         spawnPostionIndex++;
+
+        //set target for camera
+        CameraController.Instance.SetCamTarget(player);
+    }
+
+    public void RevivePlayer()
+    {
+        //spawn player
+        GameObject player = Instantiate(playerPrefab, transform);
+        currentCharacters.Add(player);
+        player.GetComponent<PlayerController>().SetCurrentMap(transform);
+        Alived++;
+
+        //set postion for player
+        int randomIndex = Random.Range(0, spawnPostions.Count - 1);
+        Vector3 spawPos = spawnPostions[randomIndex].transform.position;
+        spawPos.y = 1;
+        player.transform.position = spawPos;
 
         //set target for camera
         CameraController.Instance.SetCamTarget(player);

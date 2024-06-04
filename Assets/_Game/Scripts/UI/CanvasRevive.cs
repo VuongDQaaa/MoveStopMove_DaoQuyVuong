@@ -63,7 +63,7 @@ public class CanvasRevive : UICanvas
 
     private void ReviveGoldButton()
     {
-        if(GameManager.Instance.GetGold() >= 150)
+        if(GameManager.Instance.GetCurrentGoldInfor() >= 150)
         {
             reviveGoldButton.gameObject.SetActive(true);
             GameManager.Instance.UpdateGold(-150);

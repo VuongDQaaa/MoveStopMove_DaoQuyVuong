@@ -39,6 +39,14 @@ public class LevelManager : Singleton<LevelManager>
         return currentMap;
     }
 
+    public void UpdateMapLevel()
+    {
+        currentLevel++;
+        PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_LEVEL, currentLevel);
+        PlayerPrefs.Save();
+        UpdateMapByLevel();
+    }
+
     public int GetMapLevel()
     {
         return currentLevel;

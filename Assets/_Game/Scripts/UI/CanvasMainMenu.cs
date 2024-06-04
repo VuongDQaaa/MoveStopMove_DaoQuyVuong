@@ -47,7 +47,7 @@ public class CanvasMainMenu : UICanvas
         }
         MoveUIElement();
         RestoreUIElements();
-        goldText.text = GameManager.Instance.GetGold().ToString();
+        goldText.text = GameManager.Instance.GetCurrentGoldInfor().ToString();
         inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
     }
 
