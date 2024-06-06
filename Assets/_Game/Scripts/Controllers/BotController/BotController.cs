@@ -1,12 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class BotController : Character
 {
+    [SerializeField] private List<Weapon> weapons;
     public NavMeshAgent agent;
     private IState currentState;
     private float maxMovingRange;
     private Transform targetCharacter;
+
+    protected override void Awake()
+    {
+        //equip weapon
+        int randomIndex = Random.Range(0, weapons.Count - 1);
+        EquipWeapon(weapons[randomIndex]);
+        base.Awake();
+    }
 
     // Start is called before the first frame update
     void Start()

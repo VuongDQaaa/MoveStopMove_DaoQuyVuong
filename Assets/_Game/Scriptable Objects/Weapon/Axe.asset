@@ -10,9 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4d78928f99838f4b907b3ea6d6f509b, type: 3}
-  m_Name: Axe_0
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  weaponName: Axe_0
+  id: 3
+  weaponName: Axe
+  weaponStatus: 0
+  weaponImage: {fileID: 21300000, guid: 7dd38a35c041d844ca6455dce2412744, type: 3}
+  weaponPrize: 300
+  weaponAbility: +2 AttackRange
   weapmonPrefab: {fileID: 5983631608036652585, guid: 0c0d3657da46881459e100188ea2f2b7, type: 3}
   bulletPrefab: {fileID: 869964357530375720, guid: 4df6d0237de101c4ea7cbdc19febef4e, type: 3}
   attackRange: 1.1

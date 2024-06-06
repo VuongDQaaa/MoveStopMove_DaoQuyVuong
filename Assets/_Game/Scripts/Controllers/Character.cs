@@ -17,7 +17,7 @@ public class Character : MonoBehaviour
     [Header("Character Infor")]
     public int currentPoint;
     public string characterName = "Default";
-    private int scoreThreshhold = 10;
+    private int scoreThreshhold = 3;
     private float sizeIncreaseFactor = 1.1f;
     private float rangeIncreaseFactor = 1.1f;
     [SerializeField] protected MapController currentMap;
@@ -28,7 +28,7 @@ public class Character : MonoBehaviour
     public bool isAttack = false;
 
     [Header("Weapon")]
-    [SerializeField] private Weapon currentWeapon;
+    private Weapon currentWeapon;
     [SerializeField] private Transform weaponHold;
     [SerializeField] private GameObject bulletPrefab;
     public float attackRange;
@@ -39,14 +39,10 @@ public class Character : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     protected bool isMoving = false;
 
-    void Awake()
+    protected virtual void Awake()
     {
         originAnimSpeed = anim.speed;
         isDeath = false;
-        if (currentWeapon != null)
-        {
-            EquipWeapon(currentWeapon);
-        }
         bulletPrefab.GetComponent<BulletController>().attacker = transform;
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
         Cache.AddCharacter(transform.GetComponent<Collider>(), transform.GetComponent<Character>());
@@ -57,15 +53,16 @@ public class Character : MonoBehaviour
         currentMap = map.GetComponent<MapController>();
     }
 
-    private void EquipWeapon(Weapon weapon)
+    protected void EquipWeapon(Weapon weapon)
     {
+        currentWeapon = weapon;
         //Spawn weapon on character hand
-        Instantiate(weapon.weapmonPrefab, weaponHold.position, weaponHold.rotation, weaponHold);
+        Instantiate(currentWeapon.weapmonPrefab, weaponHold.position, weaponHold.rotation, weaponHold);
         //Update bullet prefab
-        bulletPrefab = weapon.bulletPrefab;
+        bulletPrefab = currentWeapon.bulletPrefab;
         //Update character status
-        attackRange = attackRange * weapon.attackRange;
-        attackSpeed = attackSpeed * weapon.attackSpeed;
+        attackRange = attackRange * currentWeapon.attackRange;
+        attackSpeed = attackSpeed * currentWeapon.attackSpeed;
     }
 
     public Vector3 CheckGrounded(Vector3 nextPos)

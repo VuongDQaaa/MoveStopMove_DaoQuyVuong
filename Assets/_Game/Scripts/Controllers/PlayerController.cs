@@ -7,9 +7,16 @@ public class PlayerController : Character
     [SerializeField] private GameObject zonePrefabs;
     private GameObject transparentZone;
     [SerializeField] private Material playerColor;
+    [SerializeField] private Weapon defaultWeapon;
     private Vector3 currentRotation;
     private Vector3 currentScale;
     private float fixedScale;
+
+    protected override void Awake()
+    {
+        EquipWeapon(defaultWeapon);
+        base.Awake();
+    }
 
     // Start is called before the first frame update
     void Start()

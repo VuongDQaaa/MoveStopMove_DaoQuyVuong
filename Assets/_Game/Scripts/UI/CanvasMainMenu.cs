@@ -21,6 +21,7 @@ public class CanvasMainMenu : UICanvas
 
     private void Awake()
     {
+        GameManager.Instance.SpawnMap();
         UIMoved = false;
         StartCoroutine(SaveOriginPos());
     }
@@ -49,11 +50,6 @@ public class CanvasMainMenu : UICanvas
         RestoreUIElements();
         goldText.text = GameManager.Instance.GetCurrentGoldInfor().ToString();
         inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
-    }
-
-    public override void SetUp()
-    {
-        GameManager.Instance.SpawnMap();
     }
 
     private void OnDisable()
@@ -101,7 +97,8 @@ public class CanvasMainMenu : UICanvas
 
     private void WeaponButton()
     {
-        Debug.Log("Weapon fuction");
+        Close(0);
+        UIManager.Instance.OpenUI<CanvasWeaponStore>();
     }
 
     private void SkinButton()

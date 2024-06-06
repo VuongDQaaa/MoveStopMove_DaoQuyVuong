@@ -28,5 +28,6 @@ public class CanvasDie : UICanvas
         GameManager.Instance.ClearMap();
         ObjectPooling.Instance.ClearPool();
         UIManager.Instance.OpenUI<CanvasMainMenu>();
+        GameManager.Instance.SpawnMap();
     }
 }

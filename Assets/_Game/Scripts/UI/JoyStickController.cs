@@ -3,7 +3,6 @@ using UnityEngine;
 public class JoyStickController : UICanvas
 {
     public static Vector3 direction;
-    public static float verticalInput;
     [SerializeField] private GameObject joystick;
     [SerializeField] private RectTransform bg, knob;
     [SerializeField] private float knobRange;
@@ -15,18 +14,21 @@ public class JoyStickController : UICanvas
     {
         screen.x = Screen.width;
         screen.y = Screen.height;
-        verticalInput = 0;
     }
     private void OnEnable()
     {
         direction = Vector3.zero;
-        verticalInput = 0;
+    }
+
+    private void OnDisable()
+    {
+        direction = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.currentGameState == GameState.Playing)
+        if (GameManager.Instance.currentGameState == GameState.Playing)
         {
             HandleInput();
         }
@@ -50,15 +52,11 @@ public class JoyStickController : UICanvas
             direction = (currentPos - startPos).normalized;
             direction.z = direction.y;
             direction.y = 0;
-
-            //vertical Input
-            verticalInput = direction.z;
         }
         if (Input.GetMouseButtonUp(0))
         {
             joystick.SetActive(false);
             direction = Vector3.zero;
-            verticalInput = 0;
         }
     }
 }

@@ -1,23 +1,40 @@
 using UnityEngine;
 
+public enum BulletType { Spin, Strait }
+
 public class BulletController : MonoBehaviour
 {
     public Transform attacker;
     private Transform victim;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float rotateSpeed;
+    [SerializeField] private BulletType bulletType;
     private Vector3 targetPos = Vector3.zero;
 
-    void Update()
+    private void Update()
+    {
+        DirectionControl();
+    }
+
+    public void DirectionControl()
     {
         if (targetPos != Vector3.zero)
         {
             //Bullet movement
             transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
-            transform.Rotate(0, 0, -rotateSpeed);
+
+            //Bullet rotate
+            if (bulletType == BulletType.Spin)
+            {
+                transform.Rotate(0, 0, -rotateSpeed);
+            }
+            else if (bulletType == BulletType.Strait)
+            {
+                transform.Rotate(0, 0, 0);
+            }
 
             //Disable bullet if out of attack range
-            if(Vector3.Distance(transform.position, targetPos) <= 0.1f)
+            if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
             {
                 gameObject.SetActive(false);
             }
@@ -28,31 +45,36 @@ public class BulletController : MonoBehaviour
     {
         //set a target for bullet
         targetPos = newPos;
+        if(bulletType == BulletType.Strait)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(newPos);
+            transform.rotation = Quaternion.Slerp(attacker.rotation, lookRotation, rotateSpeed * Time.deltaTime);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(Constant.TAG_PLAYER) || other.CompareTag(Constant.TAG_BOT))
+        if (other.CompareTag(Constant.TAG_PLAYER) || other.CompareTag(Constant.TAG_BOT))
         {
             //disable bullet if it hit character(player/bot)
             gameObject.SetActive(false);
             victim = other.transform;
             Character currentVictim = victim.transform.GetComponent<Character>();
             //if bullet hit other character => vitim die and update score for attacker
-            if(victim != attacker && !currentVictim.IsDeath())
+            if (victim != attacker && !currentVictim.IsDeath())
             {
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);
                 victim.GetComponent<Character>().OnDie();
                 //Update Player's killer name
-                if(victim.gameObject.tag == Constant.TAG_PLAYER)
+                if (victim.gameObject.tag == Constant.TAG_PLAYER)
                 {
                     GameManager.Instance.UpdateKillerName(attacker.GetComponent<Character>().characterName);
                     GameManager.Instance.GetReviveUI();
                 }
             }
         }
-        else if(!other.CompareTag(Constant.TAG_BULLET) 
+        else if (!other.CompareTag(Constant.TAG_BULLET)
                 && !other.CompareTag(Constant.TAG_TRANSPARENT))
         {
             gameObject.SetActive(false);
