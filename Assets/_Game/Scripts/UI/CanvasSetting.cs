@@ -37,6 +37,7 @@ public class CanvasSetting : UICanvas
         Close(0);
         ObjectPooling.Instance.ClearPool();
         GameManager.Instance.ClearMap();
+        GameManager.Instance.SpawnMap();
         GameManager.Instance.currentGameState = GameState.Start;
         UIManager.Instance.OpenUI<CanvasMainMenu>();
     }

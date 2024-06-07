@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     private int currentGold;
     private int rewardGold;
     private string killerName;
+    public PlayerController playerController;
 
     void Awake()
     {
@@ -30,6 +31,10 @@ public class GameManager : Singleton<GameManager>
         else
         {
             Time.timeScale = 1;
+        }
+
+        if(currentGameState == GameState.Playing)
+        {
             UpdateReward(mapController.GetAlived());
         }
     }
@@ -57,7 +62,14 @@ public class GameManager : Singleton<GameManager>
     //Character methods
     public int GetAliveCharacter()
     {
-        return mapController.GetAlived();
+        if(mapController != null)
+        {
+            return mapController.GetAlived();
+        }
+        else
+        {
+            return 0;
+        }
     }
     public void RevivePlayer()
     {

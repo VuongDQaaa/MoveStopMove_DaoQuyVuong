@@ -77,6 +77,7 @@ public class MapController : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, transform);
         currentCharacters.Add(player);
         player.GetComponent<PlayerController>().SetCurrentMap(transform);
+        GameManager.Instance.playerController = player.GetComponent<PlayerController>();
 
         //set postion for player
         Vector3 spawPos = spawnPostions[0].transform.position;
@@ -94,6 +95,7 @@ public class MapController : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, transform);
         currentCharacters.Add(player);
         player.GetComponent<PlayerController>().SetCurrentMap(transform);
+        GameManager.Instance.playerController = player.GetComponent<PlayerController>();
         Alived++;
 
         //set postion for player

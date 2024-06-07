@@ -12,16 +12,13 @@ public class BotController : Character
 
     protected override void Awake()
     {
-        //equip weapon
-        int randomIndex = Random.Range(0, weapons.Count - 1);
-        EquipWeapon(weapons[randomIndex]);
+        OnInit();
         base.Awake();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        OnInit();
         agent = GetComponent<NavMeshAgent>();
         ChangeState(new StopState());
     }
@@ -42,6 +39,10 @@ public class BotController : Character
 
     private void OnInit()
     {
+        //equip weapon
+        int randomIndex = Random.Range(0, weapons.Count - 1);
+        EquipWeapon(weapons[randomIndex]);
+        
         //Update bot information before spawn
         int random = Random.Range(0, Constant.BOT_NAMES.Length - 1);
         characterName = Constant.BOT_NAMES[random];

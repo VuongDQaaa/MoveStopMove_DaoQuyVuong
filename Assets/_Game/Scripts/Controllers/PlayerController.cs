@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : Character
@@ -7,28 +9,27 @@ public class PlayerController : Character
     [SerializeField] private GameObject zonePrefabs;
     private GameObject transparentZone;
     [SerializeField] private Material playerColor;
-    [SerializeField] private Weapon defaultWeapon;
     private Vector3 currentRotation;
     private Vector3 currentScale;
     private float fixedScale;
-
-    protected override void Awake()
-    {
-        EquipWeapon(defaultWeapon);
-        base.Awake();
-    }
 
     // Start is called before the first frame update
     void Start()
     {
         OnInit();
+        //equip weapon first spawn
+        Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        if (foundedWeapon != null)
+        {
+            EquipWeapon(foundedWeapon);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         //Update cam when player upsize
-        if(transform.localScale != currentScale)
+        if (transform.localScale != currentScale)
         {
             CameraController.Instance.ChangeOffSet();
             currentScale = transform.localScale;
@@ -50,7 +51,7 @@ public class PlayerController : Character
 
     void OnDestroy()
     {
-        Destroy(transparentZone);        
+        Destroy(transparentZone);
     }
 
     private void OnInit()
@@ -62,7 +63,7 @@ public class PlayerController : Character
         pantColor.material = playerColor;
         currentScale = transform.localScale;
 
-        //
+        //update player postion
         currentRotation = transform.forward;
         ChangeAnim(AnimationState.idle);
         aiming.SetActive(false);
@@ -128,5 +129,24 @@ public class PlayerController : Character
             //rotate player
             transform.rotation = Quaternion.LookRotation(currentRotation);
         }
+    }
+
+    public void ChangeWeapon(Weapon weapon)
+    {
+        ResetStatus();
+        EquipWeapon(weapon);
+    }
+
+    private void ResetStatus()
+    {
+        //reset player status before equip weapon
+        foreach (Transform child in weaponHold)
+        {
+            Destroy(child.gameObject);
+        }
+        bulletPrefab = null;
+        attackRange = Constant.CHARACTER_ATTACK_RANGE;
+        attackSpeed = Constant.CHARACTER_ATTACK_SPEED;
+        ObjectPooling.Instance.DestroyBulletByAttacker(transform);
     }
 }

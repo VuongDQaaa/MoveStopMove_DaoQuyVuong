@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   weaponName: Knife
-  weaponStatus: 0
+  weaponStatus: 1
   weaponImage: {fileID: 21300000, guid: 2fd0f3e486ccb944b8e9259531f9daee, type: 3}
   weaponPrize: 200
   weaponAbility: +2 Attack speed

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,14 +10,12 @@ public class CanvasWeaponStore : UICanvas
     [SerializeField] private Button closeButton, nextButton, backButton, selectButton, buyButton;
     [SerializeField] private TextMeshProUGUI weaponName, weaponAblility, weaponPrize, equipedText;
     [SerializeField] private Image weaponImg;
-    private List<Weapon> weaponData;
-    private Weapon showedWeapon;
-    private int index;
+    [SerializeField] private Weapon showedWeapon;
+    [SerializeField] private int index;
 
     void Awake()
     {
         index = 0;
-        weaponData = WeaponManager.Instance.weaponInfor;
     }
 
     private void OnEnable()
@@ -41,9 +40,9 @@ public class CanvasWeaponStore : UICanvas
     // Update is called once per frame
     void Update()
     {
-        showedWeapon = weaponData[index];
+        showedWeapon = WeaponManager.Instance.weaponInfor[index];
         //update weapon data
-        UpdateWeaponData();
+        UpdateWeaponUI();
     }
 
     private void CloseButton()
@@ -52,7 +51,7 @@ public class CanvasWeaponStore : UICanvas
         UIManager.Instance.OpenUI<CanvasMainMenu>();
     }
 
-    private void UpdateWeaponData()
+    private void UpdateWeaponUI()
     {
         weaponName.text = showedWeapon.weaponName;
         weaponAblility.text = showedWeapon.weaponAbility;
@@ -82,7 +81,7 @@ public class CanvasWeaponStore : UICanvas
 
     private void NextButton()
     {
-        if (index < weaponData.Count - 1)
+        if (index < WeaponManager.Instance.weaponInfor.Count - 1)
         {
             index++;
         }
@@ -100,16 +99,49 @@ public class CanvasWeaponStore : UICanvas
         }
         else
         {
-            index = weaponData.Count - 1;
+            index = WeaponManager.Instance.weaponInfor.Count - 1;
         }
     }
 
     private void SelectButton()
-    { }
+    {
+        //update showed weapon status
+        showedWeapon.weaponStatus = WeaponStatus.Equiped;
+        GameManager.Instance.playerController.ChangeWeapon(showedWeapon);
+
+        //find last equiped weapon => change status into Unlock
+        Weapon lastEquipedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        if (lastEquipedWeapon != null)
+        {
+            lastEquipedWeapon.weaponStatus = WeaponStatus.Unlocked;
+        }
+
+        //Update current equiped weapon
+        Weapon currentWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
+        if (currentWeapon != null)
+        {
+            currentWeapon.weaponStatus = WeaponStatus.Equiped;
+        }
+
+        WeaponManager.Instance.SaveToJson();
+    }
 
     private void BuyButton()
-    { }
+    {
+        if (GameManager.Instance.GetCurrentGoldInfor() >= showedWeapon.weaponPrize)
+        {
+            GameManager.Instance.UpdateGold(-showedWeapon.weaponPrize);
+            showedWeapon.weaponStatus = WeaponStatus.Unlocked;
 
-    private void UpdateWeaponInfor(Weapon weaponData)
-    { }
+            //Update information in list
+            Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
+            if (foundedWeapon != null)
+            {
+                foundedWeapon.weaponStatus = WeaponStatus.Unlocked;
+            }
+
+            //Update player information
+            WeaponManager.Instance.SaveToJson();
+        }
+    }
 }

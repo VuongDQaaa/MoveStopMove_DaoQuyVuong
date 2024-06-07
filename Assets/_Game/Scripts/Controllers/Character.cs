@@ -28,11 +28,11 @@ public class Character : MonoBehaviour
     public bool isAttack = false;
 
     [Header("Weapon")]
-    private Weapon currentWeapon;
-    [SerializeField] private Transform weaponHold;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] protected Transform weaponHold;
+    [SerializeField] protected GameObject bulletPrefab;
     public float attackRange;
-    [SerializeField] private float attackSpeed;
+    [SerializeField] protected float attackSpeed;
     [SerializeField] private Transform root;
 
     [Header("Movement")]
@@ -43,8 +43,6 @@ public class Character : MonoBehaviour
     {
         originAnimSpeed = anim.speed;
         isDeath = false;
-        bulletPrefab.GetComponent<BulletController>().attacker = transform;
-        ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
         Cache.AddCharacter(transform.GetComponent<Collider>(), transform.GetComponent<Character>());
     }
 
@@ -63,6 +61,8 @@ public class Character : MonoBehaviour
         //Update character status
         attackRange = attackRange * currentWeapon.attackRange;
         attackSpeed = attackSpeed * currentWeapon.attackSpeed;
+        bulletPrefab.GetComponent<BulletController>().attacker = transform;
+        ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
     }
 
     public Vector3 CheckGrounded(Vector3 nextPos)
@@ -220,7 +220,6 @@ public class Character : MonoBehaviour
     IEnumerator SetDie()
     {
         isDeath = true;
-        ObjectPooling.Instance.DetroyBulletByAttacker(transform);
         ChangeAnim(AnimationState.die);
         yield return new WaitForSeconds(1.5f);
         currentMap.RemoveCharacter(transform.gameObject);

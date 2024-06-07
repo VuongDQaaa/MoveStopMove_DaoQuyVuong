@@ -15,15 +15,13 @@ public class ObjectPooling : Singleton<ObjectPooling>
         pooledObjects.Add(newPoolObject);
     }
 
-    public void DetroyBulletByAttacker(Transform attacker)
+    public void DestroyBulletByAttacker(Transform attacker)
     {
-        foreach (GameObject bullet in pooledObjects)
+        GameObject bullet = pooledObjects.Find(bullet => bullet.GetComponent<BulletController>().attacker == attacker);
+        if(bullet != null)
         {
-            if (bullet.GetComponent<BulletController>() == attacker)
-            {
-                pooledObjects.Remove(bullet);
-                Destroy(bullet);
-            }
+            Destroy(bullet);
+            pooledObjects.Remove(bullet);
         }
     }
 

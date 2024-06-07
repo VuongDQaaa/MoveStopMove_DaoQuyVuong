@@ -8,21 +8,27 @@ public class WeaponManager : Singleton<WeaponManager>
     public List<Weapon> weaponInfor;
     private string filePath;
 
-    private void Start()
+    private void Awake()
     {
         filePath = Application.persistentDataPath + Constant.WEAPON_DATA_FILE_NAME;
         LoadFromJson();
     }
 
-    private void SaveToJson(List<Weapon> data)
+    public void SaveToJson()
     {
         //Convert objects list into json string
-        string json = JsonUtility.ToJson(new WeaponListWrapper{weapons = data}, true);
-        Debug.Log(json);
+        string json = JsonUtility.ToJson(new WeaponListWrapper{weapons = weaponInfor}, true);
         Debug.Log("Save location:" + filePath);
 
         //Save string into json file
         File.WriteAllText(filePath, json);
+        LoadFromJson();
+
+        //Debug
+        foreach (Weapon item in weaponInfor)
+        {
+            Debug.Log("Weapon Name:" + item.weaponName + " - " + item.weaponStatus);
+        }
     }
 
     private void LoadFromJson()
@@ -38,7 +44,7 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             //If not found file, create ".json" file from "List<Weapon> basedData" and save it
             weaponInfor = basedData;
-            SaveToJson(weaponInfor);
+            SaveToJson();
             Debug.Log(filePath);
         }
     }

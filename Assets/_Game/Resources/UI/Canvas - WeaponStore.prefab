@@ -155,7 +155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1409906910766889395
 RectTransform:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f231a0d82f75b74ebf059437d62cb29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnClose: 1
+  destroyOnClose: 0
   closeButton: {fileID: 7682331974096671947}
   nextButton: {fileID: 7715794912707110019}
   backButton: {fileID: 480657009970429126}
