@@ -9,7 +9,7 @@ public class ObjectPooling : Singleton<ObjectPooling>
     public void InstantiatePoolObject(GameObject prefabObject)
     {
         //create bullet prefab
-        GameObject newPoolObject = Instantiate(prefabObject);
+        GameObject newPoolObject = Instantiate(prefabObject, transform);
         newPoolObject.SetActive(false);
 
         pooledObjects.Add(newPoolObject);

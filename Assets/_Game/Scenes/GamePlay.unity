@@ -269,6 +269,7 @@ MonoBehaviour:
   currentGameState: 0
   mapController: {fileID: 0}
   currentMap: {fileID: 0}
+  playerController: {fileID: 0}
 --- !u!4 &635112455
 Transform:
   m_ObjectHideFlags: 0

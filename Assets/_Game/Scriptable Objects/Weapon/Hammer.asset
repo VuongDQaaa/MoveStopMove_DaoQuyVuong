@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   weaponName: Hammer
   weaponStatus: 2
-  weaponImage: {fileID: 21300000, guid: 72c20c29f2e33804aa3acce885d06487, type: 3}
+  weaponImage: {fileID: 21300000, guid: 2dbdf917bda18854c9feb89adc0a75f7, type: 3}
   weaponPrize: 0
   weaponAbility: Basic weapon
   weapmonPrefab: {fileID: 1912318091950143045, guid: a7325294650f72a4f9657126c6edb350, type: 3}

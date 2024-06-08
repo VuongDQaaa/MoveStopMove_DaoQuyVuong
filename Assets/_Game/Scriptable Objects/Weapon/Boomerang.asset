@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 4
   weaponName: Boomerang
   weaponStatus: 0
-  weaponImage: {fileID: 21300000, guid: 12254ecfc12b50d4ea3b7cfe42a1147e, type: 3}
+  weaponImage: {fileID: 21300000, guid: 850560a3d5d05414985431b7fe969284, type: 3}
   weaponPrize: 400
   weaponAbility: x2 Attack time
   weapmonPrefab: {fileID: 1249964625236251611, guid: 31354300ec4c26c4a90658f91b83eb07, type: 3}

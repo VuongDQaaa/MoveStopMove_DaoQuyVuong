@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   weaponName: Candy
   weaponStatus: 0
-  weaponImage: {fileID: 21300000, guid: 9cd76860546b4e2449ae3fb508e107e6, type: 3}
+  weaponImage: {fileID: 21300000, guid: 5a7af5be6b42eb940ac6d08116d0fe7e, type: 3}
   weaponPrize: 150
   weaponAbility: +1 Attack Range
   weapmonPrefab: {fileID: 4703725530711719296, guid: 2eb555620fac74a46b7bab8b11bb465e, type: 3}

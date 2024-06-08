@@ -164,6 +164,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.9999994}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7648443850366644403}
   - {fileID: 7637719102495680784}
   m_Father: {fileID: 4246364792753184603}
   m_LocalEulerAnglesHint: {x: 22.200203, y: -14.45165, z: -14.390194}
@@ -470,11 +471,15 @@ MonoBehaviour:
     m_Bits: 64
   currentTarget: {fileID: 0}
   isAttack: 0
+  currentWeapon: {fileID: 0}
   weaponHold: {fileID: 5033996711887238460}
   bulletPrefab: {fileID: 0}
   attackRange: 6
   attackSpeed: 1
   root: {fileID: 5425393122666082295}
+  pant: {fileID: 1970600112666524117}
+  hat: {fileID: 5247524503015314906}
+  shield: {fileID: 3659777781940896646}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -482,7 +487,6 @@ MonoBehaviour:
   aiming: {fileID: 7642722750683192275}
   zonePrefabs: {fileID: 7564929319702397490, guid: 3ff1cbeb1191a774eb5d533dcd5d0205, type: 3}
   playerColor: {fileID: 2100000, guid: 3689bcc59a4801940ac6bf1e40868e0f, type: 2}
-  defaultWeapon: {fileID: 11400000, guid: 6731b566eb354c04098f59da3bcff6be, type: 2}
 --- !u!1 &1893347340858772002
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +571,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b5f0631906fb9044082e5d4b7b53481d, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1236,6 +1240,37 @@ Transform:
   - {fileID: 3810327377196815257}
   m_Father: {fileID: 787660815421629810}
   m_LocalEulerAnglesHint: {x: -3.9870083, y: -3.9203372, z: 12.425817}
+--- !u!1 &3659777781940896646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7648443850366644403}
+  m_Layer: 6
+  m_Name: Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7648443850366644403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3659777781940896646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3535533, y: -0.45451948, z: -0.61237246, w: 0.54167527}
+  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1928971866460961845}
+  m_LocalEulerAnglesHint: {x: -10, y: -70, z: -90}
 --- !u!1 &3753541884525265358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,6 +1858,37 @@ Transform:
   - {fileID: 8484654095709712827}
   m_Father: {fileID: 1262530978163175736}
   m_LocalEulerAnglesHint: {x: 67.096306, y: 146.31194, z: 140.23238}
+--- !u!1 &5247524503015314906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319610779546363368}
+  m_Layer: 6
+  m_Name: Hat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319610779546363368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5247524503015314906}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 983567137217458607}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5315087175700979643
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,7 +2531,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0.7002377, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 319610779546363368}
   m_Father: {fileID: 6882648961462719590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7373704428792107193

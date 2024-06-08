@@ -35,6 +35,11 @@ public class Character : MonoBehaviour
     [SerializeField] protected float attackSpeed;
     [SerializeField] private Transform root;
 
+    [Header("Skin")]
+    [SerializeField] private GameObject pant;
+    [SerializeField] private GameObject hat;
+    [SerializeField] private GameObject shield;
+
     [Header("Movement")]
     [SerializeField] private LayerMask groundLayer;
     protected bool isMoving = false;

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 3
   weaponName: Axe
   weaponStatus: 0
-  weaponImage: {fileID: 21300000, guid: 7dd38a35c041d844ca6455dce2412744, type: 3}
+  weaponImage: {fileID: 21300000, guid: 29cf7060a95599b45b5032a6a3cd1798, type: 3}
   weaponPrize: 300
   weaponAbility: +2 AttackRange
   weapmonPrefab: {fileID: 5983631608036652585, guid: 0c0d3657da46881459e100188ea2f2b7, type: 3}
