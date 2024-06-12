@@ -28,6 +28,7 @@ public class CanvasGamePlay : UICanvas
 
     private void SettingButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         GameManager.Instance.currentGameState = GameState.Pause;
         UIManager.Instance.OpenUI<CanvasSetting>();
     }

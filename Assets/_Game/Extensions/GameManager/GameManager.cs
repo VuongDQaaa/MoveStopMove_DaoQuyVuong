@@ -4,6 +4,7 @@ using UnityEngine;
 public enum GameState
 {
     Start,
+    Shopping,
     Playing,
     Pause
 }
@@ -80,6 +81,7 @@ public class GameManager : Singleton<GameManager>
     //Map methods
     public void SpawnMap()
     {
+        currentMap = LevelManager.Instance.GetMapData();
         //spawn map based on current level
         if (currentMap != null)
         {

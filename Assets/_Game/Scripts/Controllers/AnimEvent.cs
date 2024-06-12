@@ -8,6 +8,7 @@ public class AnimEvent : MonoBehaviour
     public void AttackEvent()
     {
         character.AttackEvent();
+        SoundManager.PlaySound(SoundType.Attack);
     }
 
     public void HideWeapon()

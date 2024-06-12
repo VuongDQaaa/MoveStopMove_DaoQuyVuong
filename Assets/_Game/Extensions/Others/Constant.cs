@@ -1,3 +1,5 @@
+using System.Numerics;
+
 public static class Constant
 {
     public const string TAG_BOT = "Bot";
@@ -7,9 +9,9 @@ public static class Constant
     public const float SCALE_TRANSPARENT = 1.25f;
     public const string PLAYERFREFS_KEY_GOLD = "PlayerGold";
     public const string PLAYERFREFS_KEY_LEVEL = "Map Level";
+    public const string PLAYERFREFS_KEY_SOUND = "Sound";
     public const string WEAPON_DATA_FILE_NAME = "WeaponData.json";
-    public const float CHARACTER_ATTACK_RANGE = 6f;
-    public const float CHARACTER_ATTACK_SPEED = 1f;
+    public const string SKIN_DATA_FILE_NAME = "SkinData.json";
     public static readonly string[] BOT_NAMES = { "ShadowHunter", "MysticWarrior", "DragonSlayer", "NightStalker", "StormBringer",
     "PhoenixRider", "IceWizard", "FireMage", "ThunderLord", "SilentAssassin",
     "DarkKnight", "GhostRider", "BladeMaster", "LightningBolt", "SilverArrow",

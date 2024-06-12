@@ -7,10 +7,10 @@ public class Character : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator anim;
     private float originAnimSpeed;
-    [SerializeField] protected bool isDeath;
+    protected bool isDeath;
     private AnimationState currentAnimationState;
 
-    [Header("Equipments")]
+    [Header("Body")]
     [SerializeField] protected SkinnedMeshRenderer bodyColor;
     [SerializeField] protected SkinnedMeshRenderer pantColor;
 
@@ -20,25 +20,28 @@ public class Character : MonoBehaviour
     private int scoreThreshhold = 3;
     private float sizeIncreaseFactor = 1.1f;
     private float rangeIncreaseFactor = 1.1f;
-    [SerializeField] protected MapController currentMap;
+    protected MapController currentMap;
 
     [Header("Attack")]
     [SerializeField] private LayerMask attackLayer;
-    [SerializeField] protected Transform currentTarget;
+    protected Transform currentTarget;
     public bool isAttack = false;
 
-    [Header("Weapon")]
-    [SerializeField] private Weapon currentWeapon;
+    [Header("Equipment")]
+    [SerializeField] protected Weapon currentWeapon;
+    [SerializeField] protected Skin currentHat;
+    [SerializeField] protected Skin currentPant;
+    [SerializeField] protected Skin currentShield;
     [SerializeField] protected Transform weaponHold;
-    [SerializeField] protected GameObject bulletPrefab;
+    protected GameObject bulletPrefab;
     public float attackRange;
     [SerializeField] protected float attackSpeed;
     [SerializeField] private Transform root;
 
     [Header("Skin")]
-    [SerializeField] private GameObject pant;
-    [SerializeField] private GameObject hat;
-    [SerializeField] private GameObject shield;
+    [SerializeField] private Transform pant;
+    [SerializeField] protected Transform hat;
+    [SerializeField] protected Transform shield;
 
     [Header("Movement")]
     [SerializeField] private LayerMask groundLayer;
@@ -68,6 +71,28 @@ public class Character : MonoBehaviour
         attackSpeed = attackSpeed * currentWeapon.attackSpeed;
         bulletPrefab.GetComponent<BulletController>().attacker = transform;
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
+    }
+
+    protected void EquipSkin(Skin skin)
+    {
+        if (skin.skinType == SkinType.Hat)
+        {
+            currentHat = skin;
+            Instantiate(skin.skinModel, hat.position, hat.rotation, hat);
+        }
+        else if(skin.skinType == SkinType.Pant)
+        {
+            currentPant = skin;
+            pant.GetComponent<SkinnedMeshRenderer>().material = skin.skinMaterial;
+        }
+        else if(skin.skinType == SkinType.Shield)
+        {
+            currentShield = skin;
+            Instantiate(skin.skinModel, shield.position, shield.rotation, shield);
+        }
+
+        attackRange = attackRange * skin.attackRange;
+        attackSpeed = attackSpeed * skin.attackSpeed;
     }
 
     public Vector3 CheckGrounded(Vector3 nextPos)
@@ -177,6 +202,7 @@ public class Character : MonoBehaviour
     {
         if (currentPoint >= scoreThreshhold)
         {
+            SoundManager.PlaySound(SoundType.SizeUp);
             transform.localScale *= sizeIncreaseFactor;
             attackRange = attackRange * rangeIncreaseFactor;
             scoreThreshhold += scoreThreshhold;
@@ -219,6 +245,7 @@ public class Character : MonoBehaviour
 
     public void OnDie()
     {
+        SoundManager.PlaySound(SoundType.Die);
         StartCoroutine(SetDie());
     }
 

@@ -28,10 +28,6 @@ public class BulletController : MonoBehaviour
             {
                 transform.Rotate(0, 0, -rotateSpeed);
             }
-            else if (bulletType == BulletType.Strait)
-            {
-                transform.Rotate(0, 0, 0);
-            }
 
             //Disable bullet if out of attack range
             if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
@@ -45,10 +41,11 @@ public class BulletController : MonoBehaviour
     {
         //set a target for bullet
         targetPos = newPos;
-        if(bulletType == BulletType.Strait)
+        if (bulletType == BulletType.Strait)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(newPos);
-            transform.rotation = Quaternion.Slerp(attacker.rotation, lookRotation, rotateSpeed * Time.deltaTime);
+            Vector3 rotate = new Vector3(0, 0, -90);
+            rotate.y = attacker.transform.eulerAngles.y + 90;
+            transform.eulerAngles = rotate;
         }
     }
 
@@ -63,6 +60,7 @@ public class BulletController : MonoBehaviour
             //if bullet hit other character => vitim die and update score for attacker
             if (victim != attacker && !currentVictim.IsDeath())
             {
+                SoundManager.PlaySound(SoundType.WeaponHit);
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);
                 victim.GetComponent<Character>().OnDie();

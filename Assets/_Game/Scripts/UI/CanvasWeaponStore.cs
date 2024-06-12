@@ -47,6 +47,8 @@ public class CanvasWeaponStore : UICanvas
 
     private void CloseButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
+        GameManager.Instance.currentGameState = GameState.Start;
         Close(0);
         UIManager.Instance.OpenUI<CanvasMainMenu>();
     }
@@ -81,6 +83,7 @@ public class CanvasWeaponStore : UICanvas
 
     private void NextButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if (index < WeaponManager.Instance.weaponInfor.Count - 1)
         {
             index++;
@@ -93,6 +96,7 @@ public class CanvasWeaponStore : UICanvas
 
     private void BackButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if (index > 0)
         {
             index--;
@@ -105,15 +109,19 @@ public class CanvasWeaponStore : UICanvas
 
     private void SelectButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         //update showed weapon status
         showedWeapon.weaponStatus = WeaponStatus.Equiped;
         GameManager.Instance.playerController.ChangeWeapon(showedWeapon);
 
         //find last equiped weapon => change status into Unlock
-        Weapon lastEquipedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
-        if (lastEquipedWeapon != null)
+        List<Weapon> lastEquipedWeapons = WeaponManager.Instance.weaponInfor.FindAll(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        if (lastEquipedWeapons != null)
         {
-            lastEquipedWeapon.weaponStatus = WeaponStatus.Unlocked;
+            foreach (Weapon item in lastEquipedWeapons)
+            {
+                item.weaponStatus = WeaponStatus.Unlocked;
+            }
         }
 
         //Update current equiped weapon
@@ -128,6 +136,7 @@ public class CanvasWeaponStore : UICanvas
 
     private void BuyButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if (GameManager.Instance.GetCurrentGoldInfor() >= showedWeapon.weaponPrize)
         {
             GameManager.Instance.UpdateGold(-showedWeapon.weaponPrize);

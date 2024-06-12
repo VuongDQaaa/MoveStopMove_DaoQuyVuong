@@ -34,6 +34,7 @@ public class CanvasSetting : UICanvas
 
     private void HomeButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         Close(0);
         ObjectPooling.Instance.ClearPool();
         GameManager.Instance.ClearMap();
@@ -44,6 +45,7 @@ public class CanvasSetting : UICanvas
 
     private void ContinueButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         Close(0);
         GameManager.Instance.currentGameState = GameState.Playing;
     }

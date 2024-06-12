@@ -28,6 +28,7 @@ public class CanvasMainMenu : UICanvas
 
     private void OnEnable()
     {
+        goldText.text = GameManager.Instance.GetCurrentGoldInfor().ToString();
         ADSButton.onClick.AddListener(ADButton);
         vibrationButton.onClick.AddListener(VibrationButton);
         soundButton.onClick.AddListener(SoundButton);
@@ -38,7 +39,7 @@ public class CanvasMainMenu : UICanvas
 
     private void Update()
     {
-        if(GameManager.Instance.currentGameState == GameState.Start)
+        if (GameManager.Instance.currentGameState == GameState.Start)
         {
             UIMoved = false;
         }
@@ -48,7 +49,6 @@ public class CanvasMainMenu : UICanvas
         }
         MoveUIElement();
         RestoreUIElements();
-        goldText.text = GameManager.Instance.GetCurrentGoldInfor().ToString();
         inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
     }
 
@@ -64,11 +64,13 @@ public class CanvasMainMenu : UICanvas
 
     private void ADButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         Debug.Log("remove ads fuction");
     }
 
     private void VibrationButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if (vibrationActive.IsActive())
         {
             vibrationActive.gameObject.SetActive(false);
@@ -83,6 +85,7 @@ public class CanvasMainMenu : UICanvas
 
     private void SoundButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if (soundActive.IsActive())
         {
             soundActive.gameObject.SetActive(false);
@@ -97,17 +100,23 @@ public class CanvasMainMenu : UICanvas
 
     private void WeaponButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
+        GameManager.Instance.currentGameState = GameState.Shopping;
         Close(0);
         UIManager.Instance.OpenUI<CanvasWeaponStore>();
     }
 
     private void SkinButton()
     {
-        Debug.Log("Skin fuction");
+        SoundManager.PlaySound(SoundType.Button);
+        GameManager.Instance.currentGameState = GameState.Shopping;
+        Close(0);
+        UIManager.Instance.OpenUI<CanvasSkinStore>();
     }
 
     private void PlayButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         UIMoved = true;
         GameManager.Instance.currentGameState = GameState.Playing;
         Close(1.5f);

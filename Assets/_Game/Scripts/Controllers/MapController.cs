@@ -105,6 +105,7 @@ public class MapController : MonoBehaviour
         player.transform.position = spawPos;
 
         //set target for camera
+        CameraController.Instance.Reset();
         CameraController.Instance.SetCamTarget(player);
     }
 

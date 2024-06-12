@@ -460,26 +460,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 7558529178151429314}
-  isDeath: 0
   bodyColor: {fileID: 4773431898840227580}
   pantColor: {fileID: 1867076890553399795}
   currentPoint: 0
   characterName: Default
-  currentMap: {fileID: 0}
   attackLayer:
     serializedVersion: 2
     m_Bits: 64
-  currentTarget: {fileID: 0}
   isAttack: 0
   currentWeapon: {fileID: 0}
+  currentHat: {fileID: 0}
+  currentPant: {fileID: 0}
+  currentShield: {fileID: 0}
   weaponHold: {fileID: 5033996711887238460}
-  bulletPrefab: {fileID: 0}
   attackRange: 6
   attackSpeed: 1
   root: {fileID: 5425393122666082295}
-  pant: {fileID: 1970600112666524117}
-  hat: {fileID: 5247524503015314906}
-  shield: {fileID: 3659777781940896646}
+  pant: {fileID: 3045708649608489067}
+  hat: {fileID: 319610779546363368}
+  shield: {fileID: 7648443850366644403}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1264,13 +1263,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3659777781940896646}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3535533, y: -0.45451948, z: -0.61237246, w: 0.54167527}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalRotation: {x: 0.579228, y: -0.579228, z: 0.40557975, w: -0.40557975}
+  m_LocalPosition: {x: -0.1, y: 0, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1928971866460961845}
-  m_LocalEulerAnglesHint: {x: -10, y: -70, z: -90}
+  m_LocalEulerAnglesHint: {x: 180, y: -70, z: 90}
 --- !u!1 &3753541884525265358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1883,7 +1882,7 @@ Transform:
   m_GameObject: {fileID: 5247524503015314906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.8, z: 0}
+  m_LocalPosition: {x: 0, y: -1.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2968,7 +2967,7 @@ Transform:
   m_GameObject: {fileID: 8490587305186038291}
   serializedVersion: 2
   m_LocalRotation: {x: -0.46785244, y: -0.5804512, z: -0.45824882, w: 0.4839407}
-  m_LocalPosition: {x: -0.2, y: -0.2, z: 0.05}
+  m_LocalPosition: {x: -0.2, y: -0.14, z: 0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []

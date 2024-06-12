@@ -9,6 +9,7 @@ public class CanvasDie : UICanvas
 
     private void OnEnable()
     {
+        SoundManager.PlaySound(SoundType.Die);
         continueButton.onClick.AddListener(ContinueButton);
         rattingText.text = "#" + GameManager.Instance.GetRankInfor().ToString();
         goldText.text = GameManager.Instance.GetRewardInfor().ToString();
@@ -23,6 +24,7 @@ public class CanvasDie : UICanvas
 
     private void ContinueButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         Close(0);
         GameManager.Instance.currentGameState = GameState.Start;
         GameManager.Instance.ClearMap();

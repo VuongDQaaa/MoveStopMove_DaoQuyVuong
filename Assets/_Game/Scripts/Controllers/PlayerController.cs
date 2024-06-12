@@ -18,11 +18,7 @@ public class PlayerController : Character
     {
         OnInit();
         //equip weapon first spawn
-        Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
-        if (foundedWeapon != null)
-        {
-            EquipWeapon(foundedWeapon);
-        }
+        EquipBeforeStart();
     }
 
     // Update is called once per frame
@@ -52,6 +48,37 @@ public class PlayerController : Character
     void OnDestroy()
     {
         Destroy(transparentZone);
+    }
+
+    private void EquipBeforeStart()
+    {
+        //hat
+        Skin hat = WeaponManager.Instance.skinInfor.FirstOrDefault(hat => hat.skinType == SkinType.Hat
+                                                                        && hat.weaponStatus == WeaponStatus.Equiped);
+        if (hat != null)
+        {
+            EquipSkin(hat);
+        }
+        //pant
+        Skin pant = WeaponManager.Instance.skinInfor.FirstOrDefault(pant => pant.skinType == SkinType.Pant
+                                                                        && pant.weaponStatus == WeaponStatus.Equiped);
+        if (pant != null)
+        {
+            EquipSkin(pant);
+        }
+        //hat
+        Skin shield = WeaponManager.Instance.skinInfor.FirstOrDefault(shield => shield.skinType == SkinType.Shield
+                                                                        && shield.weaponStatus == WeaponStatus.Equiped);
+        if (shield != null)
+        {
+            EquipSkin(shield);
+        }
+        //weapon
+        Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        if (foundedWeapon != null)
+        {
+            EquipWeapon(foundedWeapon);
+        }
     }
 
     private void OnInit()
@@ -133,20 +160,52 @@ public class PlayerController : Character
 
     public void ChangeWeapon(Weapon weapon)
     {
-        ResetStatus();
+        ResetWeapon();
         EquipWeapon(weapon);
     }
 
-    private void ResetStatus()
+    public void ChangeSkin(Skin skin)
+    {
+        //reset player status before equip skin
+        if (skin.skinType == SkinType.Hat && currentHat != null)
+        {
+            foreach (Transform child in hat)
+            {
+                Destroy(child.gameObject);
+            }
+            attackRange /= currentHat.attackRange;
+            attackSpeed /= currentHat.attackSpeed;
+        }
+        else if (skin.skinType == SkinType.Pant && currentPant != null)
+        {
+            attackRange /= currentPant.attackRange;
+            attackSpeed /= currentPant.attackSpeed;
+        }
+        else if (skin.skinType == SkinType.Shield && currentShield != null)
+        {
+            foreach (Transform child in shield)
+            {
+                Destroy(child.gameObject);
+            }
+            attackRange /= currentShield.attackRange;
+            attackSpeed /= currentShield.attackSpeed;
+        }
+        //update new skin
+        EquipSkin(skin);
+    }
+
+    private void ResetWeapon()
     {
         //reset player status before equip weapon
+        attackRange /= currentWeapon.attackRange;
+        attackSpeed /= currentWeapon.attackSpeed;
+
+        //destroy old weapon model and bullet prefab
         foreach (Transform child in weaponHold)
         {
             Destroy(child.gameObject);
         }
         bulletPrefab = null;
-        attackRange = Constant.CHARACTER_ATTACK_RANGE;
-        attackSpeed = Constant.CHARACTER_ATTACK_SPEED;
         ObjectPooling.Instance.DestroyBulletByAttacker(transform);
     }
 }

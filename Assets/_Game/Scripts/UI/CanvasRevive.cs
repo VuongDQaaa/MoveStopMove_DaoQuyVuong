@@ -56,6 +56,7 @@ public class CanvasRevive : UICanvas
 
     private void CloseButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         countDownTime = 0;
         Close(0);
         UIManager.Instance.OpenUI<CanvasDie>();
@@ -63,6 +64,7 @@ public class CanvasRevive : UICanvas
 
     private void ReviveGoldButton()
     {
+        SoundManager.PlaySound(SoundType.Button);
         if(GameManager.Instance.GetCurrentGoldInfor() >= 150)
         {
             reviveGoldButton.gameObject.SetActive(true);

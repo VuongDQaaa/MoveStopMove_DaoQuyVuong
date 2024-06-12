@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   weaponName: Hammer
-  weaponStatus: 2
+  weaponStatus: 1
   weaponImage: {fileID: 21300000, guid: 2dbdf917bda18854c9feb89adc0a75f7, type: 3}
   weaponPrize: 0
   weaponAbility: Basic weapon
