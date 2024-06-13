@@ -11,6 +11,11 @@ public class PatrolState : IState
         {
             bot.ChangeState(new StopState());
         }
+
+        if (bot.Death())
+        {
+            bot.agent.isStopped = true;
+        }
     }
 
     public void OnExit(BotController bot)

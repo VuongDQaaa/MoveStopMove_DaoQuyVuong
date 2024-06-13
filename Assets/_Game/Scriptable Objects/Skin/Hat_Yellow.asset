@@ -19,7 +19,7 @@ MonoBehaviour:
   skinPrize: 300
   skinImnage: {fileID: 21300000, guid: 69fc10e773b5a814198a5883e168c2b7, type: 3}
   skinAbility: x2 Attack Speed
-  skinModel: {fileID: 0}
+  skinModel: {fileID: 80355350097072522, guid: 87b0be33300ace344b3a838562789aab, type: 3}
   skinMaterial: {fileID: 0}
   attackRange: 1
   attackSpeed: 2

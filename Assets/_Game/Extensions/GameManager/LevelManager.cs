@@ -41,9 +41,16 @@ public class LevelManager : Singleton<LevelManager>
 
     public void UpdateMapLevel()
     {
-        currentLevel++;
-        PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_LEVEL, currentLevel);
-        PlayerPrefs.Save();
+        if (currentLevel == 3)
+        {
+            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_LEVEL, 1);
+        }
+        else
+        {
+            currentLevel++;
+            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_LEVEL, currentLevel);
+            PlayerPrefs.Save();
+        }
         UpdateMapByLevel();
     }
 

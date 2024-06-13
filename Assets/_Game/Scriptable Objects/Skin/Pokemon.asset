@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 14
   skinName: Pokemon
   skinType: 1
-  weaponStatus: 2
+  weaponStatus: 0
   skinPrize: 500
   skinImnage: {fileID: 21300000, guid: a482b056a7db15c449864b0f6737a4cb, type: 3}
   skinAbility: x3 Attack Speed

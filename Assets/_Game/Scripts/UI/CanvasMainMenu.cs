@@ -47,8 +47,10 @@ public class CanvasMainMenu : UICanvas
         {
             UIMoved = true;
         }
+
         MoveUIElement();
         RestoreUIElements();
+        UpdateSoundIcon();
         inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
     }
 
@@ -60,6 +62,20 @@ public class CanvasMainMenu : UICanvas
         weaponButton.onClick.RemoveAllListeners();
         skinButton.onClick.RemoveAllListeners();
         playButton.onClick.RemoveAllListeners();
+    }
+
+    private void UpdateSoundIcon()
+    {
+        if (SoundManager.Instance.currentVolume > 0)
+        {
+            soundActive.gameObject.SetActive(true);
+            soundDeactive.gameObject.SetActive(false);
+        }
+        else
+        {
+            soundActive.gameObject.SetActive(false);
+            soundDeactive.gameObject.SetActive(true);
+        }
     }
 
     private void ADButton()
@@ -86,16 +102,7 @@ public class CanvasMainMenu : UICanvas
     private void SoundButton()
     {
         SoundManager.PlaySound(SoundType.Button);
-        if (soundActive.IsActive())
-        {
-            soundActive.gameObject.SetActive(false);
-            soundDeactive.gameObject.SetActive(true);
-        }
-        else
-        {
-            soundActive.gameObject.SetActive(true);
-            soundDeactive.gameObject.SetActive(false);
-        }
+        SoundManager.SoundSetting();
     }
 
     private void WeaponButton()

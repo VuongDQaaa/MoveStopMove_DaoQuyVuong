@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class BotController : Character
 {
     [SerializeField] private List<Weapon> weapons;
+    [SerializeField] private Target target;
     public NavMeshAgent agent;
     private IState currentState;
     private float maxMovingRange;
@@ -50,6 +51,7 @@ public class BotController : Character
 
         //Update bot color
         Color botColor = GetRandomColor();
+        target.ChangeColor(botColor);
         bodyColor.material.color = botColor;
         pantColor.material.color = botColor;
     }
@@ -115,6 +117,11 @@ public class BotController : Character
             isMoving = true;
             agent.destination = targetCharacter.position;
         }
+    }
+
+    public bool Death()
+    {
+        return isDeath;
     }
 
     public void ChangeState(IState newState)

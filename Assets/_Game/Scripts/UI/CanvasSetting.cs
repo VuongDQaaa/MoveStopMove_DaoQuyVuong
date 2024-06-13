@@ -26,8 +26,30 @@ public class CanvasSetting : UICanvas
         continueButton.onClick.RemoveAllListeners();
     }
 
+    private void Update()
+    {
+        UpdateSoundIcons();
+    }
+
+    private void UpdateSoundIcons()
+    {
+        if (SoundManager.Instance.currentVolume > 0)
+        {
+            soundIcon.gameObject.SetActive(true);
+            muteIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            soundIcon.gameObject.SetActive(false);
+            muteIcon.gameObject.SetActive(true);
+        }
+    }
+
     private void SoundButton()
-    { }
+    {
+        SoundManager.PlaySound(SoundType.Button);
+        Debug.Log("remove ads fuction");
+    }
 
     private void VibrationButton()
     { }

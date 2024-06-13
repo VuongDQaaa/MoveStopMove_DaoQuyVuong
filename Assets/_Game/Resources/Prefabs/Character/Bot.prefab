@@ -706,6 +706,7 @@ GameObject:
   - component: {fileID: 7844519762601808197}
   - component: {fileID: 40051071311023156}
   - component: {fileID: 3507305525655645986}
+  - component: {fileID: 6766434773252899110}
   m_Layer: 6
   m_Name: Bot
   m_TagString: Bot
@@ -823,6 +824,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 580fc1fb94ca14344b90be8591d1e8a0, type: 2}
   - {fileID: 11400000, guid: 64390181c6288d04e917f3484b097caf, type: 2}
   - {fileID: 11400000, guid: cc000fbe119856346b73a02b2aacc770, type: 2}
+  target: {fileID: 6766434773252899110}
   agent: {fileID: 3507305525655645986}
 --- !u!195 &3507305525655645986
 NavMeshAgent:
@@ -846,6 +848,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6766434773252899110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2230394401900078993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  needBoxIndicator: 0
+  needArrowIndicator: 1
+  needDistanceText: 0
+  indicator: {fileID: 0}
 --- !u!1 &2255118965876033663
 GameObject:
   m_ObjectHideFlags: 0

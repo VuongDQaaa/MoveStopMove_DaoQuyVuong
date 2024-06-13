@@ -12,6 +12,7 @@ public static class Constant
     public const string PLAYERFREFS_KEY_SOUND = "Sound";
     public const string WEAPON_DATA_FILE_NAME = "WeaponData.json";
     public const string SKIN_DATA_FILE_NAME = "SkinData.json";
+    public const string Sound_SETTING = "Sound";
     public static readonly string[] BOT_NAMES = { "ShadowHunter", "MysticWarrior", "DragonSlayer", "NightStalker", "StormBringer",
     "PhoenixRider", "IceWizard", "FireMage", "ThunderLord", "SilentAssassin",
     "DarkKnight", "GhostRider", "BladeMaster", "LightningBolt", "SilverArrow",
