@@ -53,28 +53,28 @@ public class PlayerController : Character
     private void EquipBeforeStart()
     {
         //hat
-        Skin hat = WeaponManager.Instance.skinInfor.FirstOrDefault(hat => hat.skinType == SkinType.Hat
-                                                                        && hat.weaponStatus == WeaponStatus.Equiped);
+        Equipment hat = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(hat => hat.equipmentType == EquipmentType.Hat
+                                                                        && hat.equipmentStatus == EquipmentStatus.Equiped);
         if (hat != null)
         {
             EquipSkin(hat);
         }
         //pant
-        Skin pant = WeaponManager.Instance.skinInfor.FirstOrDefault(pant => pant.skinType == SkinType.Pant
-                                                                        && pant.weaponStatus == WeaponStatus.Equiped);
+        Equipment pant = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(pant => pant.equipmentType == EquipmentType.Pant
+                                                                        && pant.equipmentStatus == EquipmentStatus.Equiped);
         if (pant != null)
         {
             EquipSkin(pant);
         }
         //hat
-        Skin shield = WeaponManager.Instance.skinInfor.FirstOrDefault(shield => shield.skinType == SkinType.Shield
-                                                                        && shield.weaponStatus == WeaponStatus.Equiped);
+        Equipment shield = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(shield => shield.equipmentType == EquipmentType.Shield
+                                                                        && shield.equipmentStatus == EquipmentStatus.Equiped);
         if (shield != null)
         {
             EquipSkin(shield);
         }
         //weapon
-        Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        Equipment foundedWeapon = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(weapon => weapon.equipmentStatus == EquipmentStatus.Equiped);
         if (foundedWeapon != null)
         {
             EquipWeapon(foundedWeapon);
@@ -158,16 +158,16 @@ public class PlayerController : Character
         }
     }
 
-    public void ChangeWeapon(Weapon weapon)
+    public void ChangeWeapon(Equipment weapon)
     {
         ResetWeapon();
         EquipWeapon(weapon);
     }
 
-    public void ChangeSkin(Skin skin)
+    public void ChangeSkin(Equipment Equipment)
     {
-        //reset player status before equip skin
-        if (skin.skinType == SkinType.Hat && currentHat != null)
+        //reset player status before equip Equipment
+        if (Equipment.equipmentType == EquipmentType.Hat && currentHat != null)
         {
             foreach (Transform child in hat)
             {
@@ -176,12 +176,12 @@ public class PlayerController : Character
             attackRange /= currentHat.attackRange;
             attackSpeed /= currentHat.attackSpeed;
         }
-        else if (skin.skinType == SkinType.Pant && currentPant != null)
+        else if (Equipment.equipmentType == EquipmentType.Pant && currentPant != null)
         {
             attackRange /= currentPant.attackRange;
             attackSpeed /= currentPant.attackSpeed;
         }
-        else if (skin.skinType == SkinType.Shield && currentShield != null)
+        else if (Equipment.equipmentType == EquipmentType.Shield && currentShield != null)
         {
             foreach (Transform child in shield)
             {
@@ -190,8 +190,8 @@ public class PlayerController : Character
             attackRange /= currentShield.attackRange;
             attackSpeed /= currentShield.attackSpeed;
         }
-        //update new skin
-        EquipSkin(skin);
+        //update new Equipment
+        EquipSkin(Equipment);
     }
 
     private void ResetWeapon()

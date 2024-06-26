@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae69a49dc057fab4d825b105d36670c8, type: 3}
+  m_Name: Ears
+  m_EditorClassIdentifier: 
+  id: 10
+  equipmentName: Ears
+  equipmentType: 0
+  equipmentStatus: 0
+  equipmentModel: {fileID: 4157835340754598591, guid: 3684b6127bdc22e45ba1791c6f018097, type: 3}
+  bulletPrefab: {fileID: 0}
+  equipmentMaterial: {fileID: 0}
+  equipmentImage: {fileID: 21300000, guid: 5dd6afb8b1bc7b947853e77fc8811be4, type: 3}
+  equipmentPrize: 100
+  equipmentAbility: None
+  attackRange: 1
+  attackSpeed: 1

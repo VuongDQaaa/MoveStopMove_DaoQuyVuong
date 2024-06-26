@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae69a49dc057fab4d825b105d36670c8, type: 3}
+  m_Name: Candy
+  m_EditorClassIdentifier: 
+  id: 5
+  equipmentName: Candy
+  equipmentType: 4
+  equipmentStatus: 0
+  equipmentModel: {fileID: 4703725530711719296, guid: 2eb555620fac74a46b7bab8b11bb465e, type: 3}
+  bulletPrefab: {fileID: 7483908417141960145, guid: d691440172a70cf4298aef0b91f1c795, type: 3}
+  equipmentMaterial: {fileID: 0}
+  equipmentImage: {fileID: 21300000, guid: 5a7af5be6b42eb940ac6d08116d0fe7e, type: 3}
+  equipmentPrize: 300
+  equipmentAbility: +30% Attack Range
+  attackRange: 1.3
+  attackSpeed: 1

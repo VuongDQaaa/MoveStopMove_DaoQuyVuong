@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class BotController : Character
 {
-    [SerializeField] private List<Weapon> weapons;
+    [SerializeField] private List<Equipment> weapons;
     [SerializeField] private Target target;
     public NavMeshAgent agent;
     private IState currentState;
@@ -27,7 +27,7 @@ public class BotController : Character
     // Update is called once per frame
     void Update()
     {
-        if (isDeath == false && GameManager.Instance.currentGameState == GameState.Playing)
+        if (GameManager.Instance.currentGameState == GameState.Playing)
         {
             if (currentState != null)
             {
@@ -117,11 +117,6 @@ public class BotController : Character
             isMoving = true;
             agent.destination = targetCharacter.position;
         }
-    }
-
-    public bool Death()
-    {
-        return isDeath;
     }
 
     public void ChangeState(IState newState)

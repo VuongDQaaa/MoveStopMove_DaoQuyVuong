@@ -10,10 +10,10 @@ public class CanvasSkinStore : UICanvas
     [SerializeField] private TextMeshProUGUI itemAbility, itemPrize, selectedText;
     [Header("Parameters")]
     [SerializeField] private SkinItem itemUI;
-    public Skin currentSelectedSkin;
-    [SerializeField] private SkinType currentSkinType;
+    public Equipment currentSelectedSkin;
+    [SerializeField] private EquipmentType currentSkinType;
     private Color originButtonColor;
-    [SerializeField] private List<Skin> currentSkins;
+    [SerializeField] private List<Equipment> currentSkins;
     [SerializeField] private List<SkinItem> currentItems;
     [SerializeField] private Transform content;
 
@@ -25,7 +25,7 @@ public class CanvasSkinStore : UICanvas
     private void OnEnable()
     {
         HatButton();
-        currentSkinType = SkinType.Hat;
+        currentSkinType = EquipmentType.Hat;
         closeButton.onClick.AddListener(CloseButton);
         hatButton.onClick.AddListener(HatButton);
         pantButton.onClick.AddListener(PantButton);
@@ -58,24 +58,24 @@ public class CanvasSkinStore : UICanvas
     private void UpdateStoreUI()
     {
         //Update store UI follow current selected skin item
-        itemPrize.text = currentSelectedSkin.skinPrize.ToString();
-        itemAbility.text = currentSelectedSkin.skinAbility;
+        itemPrize.text = currentSelectedSkin.equipmentPrize.ToString();
+        itemAbility.text = currentSelectedSkin.equipmentAbility;
         //control buybutton, unlogbutton, selectbutton
-        if (currentSelectedSkin.weaponStatus == WeaponStatus.Locked)
+        if (currentSelectedSkin.equipmentStatus == EquipmentStatus.Locked)
         {
             buyButton.gameObject.SetActive(true);
             unlockButton.gameObject.SetActive(true);
             selectButton.gameObject.SetActive(false);
             selectedText.gameObject.SetActive(false);
         }
-        else if (currentSelectedSkin.weaponStatus == WeaponStatus.Unlocked)
+        else if (currentSelectedSkin.equipmentStatus == EquipmentStatus.Unlocked)
         {
             buyButton.gameObject.SetActive(false);
             unlockButton.gameObject.SetActive(false);
             selectButton.gameObject.SetActive(true);
             selectedText.gameObject.SetActive(false);
         }
-        else if (currentSelectedSkin.weaponStatus == WeaponStatus.Equiped)
+        else if (currentSelectedSkin.equipmentStatus == EquipmentStatus.Equiped)
         {
             buyButton.gameObject.SetActive(false);
             unlockButton.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class CanvasSkinStore : UICanvas
     private void UpdateSkinTypeButton()
     {
         //hat button
-        if (currentSkinType == SkinType.Hat)
+        if (currentSkinType == EquipmentType.Hat)
         {
             Color newColor = hatButton.image.color;
             newColor.a = 0;
@@ -99,7 +99,7 @@ public class CanvasSkinStore : UICanvas
         }
 
         //pant button
-        if (currentSkinType == SkinType.Pant)
+        if (currentSkinType == EquipmentType.Pant)
         {
             Color newColor = hatButton.image.color;
             newColor.a = 0;
@@ -111,7 +111,7 @@ public class CanvasSkinStore : UICanvas
         }
 
         //shilde button
-        if (currentSkinType == SkinType.Shield)
+        if (currentSkinType == EquipmentType.Shield)
         {
             Color newColor = hatButton.image.color;
             newColor.a = 0;
@@ -125,7 +125,7 @@ public class CanvasSkinStore : UICanvas
 
     private void UpdateItem()
     {
-        currentSkins = WeaponManager.Instance.skinInfor.FindAll(skin => skin.skinType == currentSkinType);
+        currentSkins = EquipmentManager.Instance.equipmentInfor.FindAll(skin => skin.equipmentType == currentSkinType);
         if (currentSkins != null)
         {
             for (int i = 0; i < currentSkins.Count; i++)
@@ -160,7 +160,7 @@ public class CanvasSkinStore : UICanvas
     {
         SoundManager.PlaySound(SoundType.Button);
         ClearCurrentItemsList();
-        currentSkinType = SkinType.Hat;
+        currentSkinType = EquipmentType.Hat;
         UpdateItem();
     }
 
@@ -168,7 +168,7 @@ public class CanvasSkinStore : UICanvas
     {
         SoundManager.PlaySound(SoundType.Button);
         ClearCurrentItemsList();
-        currentSkinType = SkinType.Pant;
+        currentSkinType = EquipmentType.Pant;
         UpdateItem();
     }
 
@@ -176,7 +176,7 @@ public class CanvasSkinStore : UICanvas
     {
         SoundManager.PlaySound(SoundType.Button);
         ClearCurrentItemsList();
-        currentSkinType = SkinType.Shield;
+        currentSkinType = EquipmentType.Shield;
         UpdateItem();
     }
 
@@ -186,20 +186,20 @@ public class CanvasSkinStore : UICanvas
     private void BuyButton()
     {
         SoundManager.PlaySound(SoundType.Button);
-        if (GameManager.Instance.GetCurrentGoldInfor() >= currentSelectedSkin.skinPrize)
+        if (GameManager.Instance.GetCurrentGoldInfor() >= currentSelectedSkin.equipmentPrize)
         {
-            GameManager.Instance.UpdateGold(-currentSelectedSkin.skinPrize);
-            currentSelectedSkin.weaponStatus = WeaponStatus.Unlocked;
+            GameManager.Instance.UpdateGold(-currentSelectedSkin.equipmentPrize);
+            currentSelectedSkin.equipmentStatus = EquipmentStatus.Unlocked;
 
             //Update information in list
-            Skin foundedSkin = WeaponManager.Instance.skinInfor.FirstOrDefault(skin => skin.id == currentSelectedSkin.id);
+            Equipment foundedSkin = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(skin => skin.id == currentSelectedSkin.id);
             if (foundedSkin != null)
             {
-                foundedSkin.weaponStatus = WeaponStatus.Unlocked;
+                foundedSkin.equipmentStatus = EquipmentStatus.Unlocked;
             }
 
             //Update player information
-            WeaponManager.Instance.SaveToJson();
+            EquipmentManager.Instance.SaveToJson();
         }
     }
 
@@ -210,27 +210,27 @@ public class CanvasSkinStore : UICanvas
     {
         SoundManager.PlaySound(SoundType.Button);
         //update showed weapon status
-        currentSelectedSkin.weaponStatus = WeaponStatus.Equiped;
+        currentSelectedSkin.equipmentStatus = EquipmentStatus.Equiped;
         GameManager.Instance.playerController.ChangeSkin(currentSelectedSkin);
 
         //find last equiped weapon => change status into Unlock
-        List<Skin> lastEquipedSkins = WeaponManager.Instance.skinInfor.FindAll(skin => skin.weaponStatus == WeaponStatus.Equiped
-                                                                                        && skin.skinType == currentSelectedSkin.skinType);
+        List<Equipment> lastEquipedSkins = EquipmentManager.Instance.equipmentInfor.FindAll(skin => skin.equipmentStatus == EquipmentStatus.Equiped
+                                                                                        && skin.equipmentType == currentSelectedSkin.equipmentType);
         if (lastEquipedSkins != null)
         {
-            foreach (Skin item in lastEquipedSkins)
+            foreach (Equipment item in lastEquipedSkins)
             {
-                item.weaponStatus = WeaponStatus.Unlocked;
+                item.equipmentStatus = EquipmentStatus.Unlocked;
             }
         }
 
         //Update current equiped weapon
-        Skin currentSkin = WeaponManager.Instance.skinInfor.FirstOrDefault(skin => skin.id == currentSelectedSkin.id);
+        Equipment currentSkin = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(skin => skin.id == currentSelectedSkin.id);
         if (currentSkin != null)
         {
-            currentSkin.weaponStatus = WeaponStatus.Equiped;
+            currentSkin.equipmentStatus = EquipmentStatus.Equiped;
         }
 
-        WeaponManager.Instance.SaveToJson();
+        EquipmentManager.Instance.SaveToJson();
     }
 }

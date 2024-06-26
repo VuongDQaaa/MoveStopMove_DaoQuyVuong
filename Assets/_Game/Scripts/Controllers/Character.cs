@@ -28,10 +28,10 @@ public class Character : MonoBehaviour
     public bool isAttack = false;
 
     [Header("Equipment")]
-    [SerializeField] protected Weapon currentWeapon;
-    [SerializeField] protected Skin currentHat;
-    [SerializeField] protected Skin currentPant;
-    [SerializeField] protected Skin currentShield;
+    [SerializeField] protected Equipment currentWeapon;
+    [SerializeField] protected Equipment currentHat;
+    [SerializeField] protected Equipment currentPant;
+    [SerializeField] protected Equipment currentShield;
     [SerializeField] protected Transform weaponHold;
     protected GameObject bulletPrefab;
     public float attackRange;
@@ -59,11 +59,11 @@ public class Character : MonoBehaviour
         currentMap = map.GetComponent<MapController>();
     }
 
-    protected void EquipWeapon(Weapon weapon)
+    protected void EquipWeapon(Equipment weapon)
     {
         currentWeapon = weapon;
         //Spawn weapon on character hand
-        Instantiate(currentWeapon.weapmonPrefab, weaponHold.position, weaponHold.rotation, weaponHold);
+        Instantiate(currentWeapon.equipmentModel, weaponHold.position, weaponHold.rotation, weaponHold);
         //Update bullet prefab
         bulletPrefab = currentWeapon.bulletPrefab;
         //Update character status
@@ -73,22 +73,22 @@ public class Character : MonoBehaviour
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
     }
 
-    protected void EquipSkin(Skin skin)
+    protected void EquipSkin(Equipment skin)
     {
-        if (skin.skinType == SkinType.Hat)
+        if (skin.equipmentType == EquipmentType.Hat)
         {
             currentHat = skin;
-            Instantiate(skin.skinModel, hat.position, hat.rotation, hat);
+            Instantiate(skin.equipmentModel, hat.position, hat.rotation, hat);
         }
-        else if(skin.skinType == SkinType.Pant)
+        else if(skin.equipmentType == EquipmentType.Pant)
         {
             currentPant = skin;
-            pant.GetComponent<SkinnedMeshRenderer>().material = skin.skinMaterial;
+            pant.GetComponent<SkinnedMeshRenderer>().material = skin.equipmentMaterial;
         }
-        else if(skin.skinType == SkinType.Shield)
+        else if(skin.equipmentType == EquipmentType.Shield)
         {
             currentShield = skin;
-            Instantiate(skin.skinModel, shield.position, shield.rotation, shield);
+            Instantiate(skin.equipmentModel, shield.position, shield.rotation, shield);
         }
 
         attackRange = attackRange * skin.attackRange;

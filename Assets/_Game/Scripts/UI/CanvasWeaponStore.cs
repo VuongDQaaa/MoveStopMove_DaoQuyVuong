@@ -10,12 +10,14 @@ public class CanvasWeaponStore : UICanvas
     [SerializeField] private Button closeButton, nextButton, backButton, selectButton, buyButton;
     [SerializeField] private TextMeshProUGUI weaponName, weaponAblility, weaponPrize, equipedText;
     [SerializeField] private Image weaponImg;
-    [SerializeField] private Weapon showedWeapon;
+    [SerializeField] private Equipment showedWeapon;
     [SerializeField] private int index;
+    [SerializeField] private List<Equipment> weaponsList;
 
     void Awake()
     {
         index = 0;
+        weaponsList = EquipmentManager.Instance.equipmentInfor.FindAll(weapon => weapon.equipmentType == EquipmentType.Weapon);
     }
 
     private void OnEnable()
@@ -40,7 +42,7 @@ public class CanvasWeaponStore : UICanvas
     // Update is called once per frame
     void Update()
     {
-        showedWeapon = WeaponManager.Instance.weaponInfor[index];
+        showedWeapon = weaponsList[index];
         //update weapon data
         UpdateWeaponUI();
     }
@@ -55,25 +57,25 @@ public class CanvasWeaponStore : UICanvas
 
     private void UpdateWeaponUI()
     {
-        weaponName.text = showedWeapon.weaponName;
-        weaponAblility.text = showedWeapon.weaponAbility;
-        weaponPrize.text = showedWeapon.weaponPrize.ToString();
-        weaponImg.sprite = showedWeapon.weaponImage;
+        weaponName.text = showedWeapon.equipmentName;
+        weaponAblility.text = showedWeapon.equipmentAbility;
+        weaponPrize.text = showedWeapon.equipmentPrize.ToString();
+        weaponImg.sprite = showedWeapon.equipmentImage;
 
         //update button based on weapon status
-        switch (showedWeapon.weaponStatus)
+        switch (showedWeapon.equipmentStatus)
         {
-            case WeaponStatus.Equiped:
+            case EquipmentStatus.Equiped:
                 equipedText.gameObject.SetActive(true);
                 selectButton.gameObject.SetActive(false);
                 buyButton.gameObject.SetActive(false);
                 break;
-            case WeaponStatus.Locked:
+            case EquipmentStatus.Locked:
                 equipedText.gameObject.SetActive(false);
                 selectButton.gameObject.SetActive(false);
                 buyButton.gameObject.SetActive(true);
                 break;
-            case WeaponStatus.Unlocked:
+            case EquipmentStatus.Unlocked:
                 equipedText.gameObject.SetActive(false);
                 selectButton.gameObject.SetActive(true);
                 buyButton.gameObject.SetActive(false);
@@ -84,7 +86,7 @@ public class CanvasWeaponStore : UICanvas
     private void NextButton()
     {
         SoundManager.PlaySound(SoundType.Button);
-        if (index < WeaponManager.Instance.weaponInfor.Count - 1)
+        if (index < weaponsList.Count - 1)
         {
             index++;
         }
@@ -103,7 +105,7 @@ public class CanvasWeaponStore : UICanvas
         }
         else
         {
-            index = WeaponManager.Instance.weaponInfor.Count - 1;
+            index = weaponsList.Count - 1;
         }
     }
 
@@ -111,46 +113,47 @@ public class CanvasWeaponStore : UICanvas
     {
         SoundManager.PlaySound(SoundType.Button);
         //update showed weapon status
-        showedWeapon.weaponStatus = WeaponStatus.Equiped;
+        showedWeapon.equipmentStatus = EquipmentStatus.Equiped;
         GameManager.Instance.playerController.ChangeWeapon(showedWeapon);
 
         //find last equiped weapon => change status into Unlock
-        List<Weapon> lastEquipedWeapons = WeaponManager.Instance.weaponInfor.FindAll(weapon => weapon.weaponStatus == WeaponStatus.Equiped);
+        List<Equipment> lastEquipedWeapons = EquipmentManager.Instance.equipmentInfor.FindAll(weapon => weapon.equipmentType == EquipmentType.Weapon
+                                                                                                    && weapon.equipmentStatus == EquipmentStatus.Equiped);
         if (lastEquipedWeapons != null)
         {
-            foreach (Weapon item in lastEquipedWeapons)
+            foreach (Equipment item in lastEquipedWeapons)
             {
-                item.weaponStatus = WeaponStatus.Unlocked;
+                item.equipmentStatus = EquipmentStatus.Unlocked;
             }
         }
 
         //Update current equiped weapon
-        Weapon currentWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
+        Equipment currentWeapon = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
         if (currentWeapon != null)
         {
-            currentWeapon.weaponStatus = WeaponStatus.Equiped;
+            currentWeapon.equipmentStatus = EquipmentStatus.Equiped;
         }
 
-        WeaponManager.Instance.SaveToJson();
+        EquipmentManager.Instance.SaveToJson();
     }
 
     private void BuyButton()
     {
         SoundManager.PlaySound(SoundType.Button);
-        if (GameManager.Instance.GetCurrentGoldInfor() >= showedWeapon.weaponPrize)
+        if (GameManager.Instance.GetCurrentGoldInfor() >= showedWeapon.equipmentPrize)
         {
-            GameManager.Instance.UpdateGold(-showedWeapon.weaponPrize);
-            showedWeapon.weaponStatus = WeaponStatus.Unlocked;
+            GameManager.Instance.UpdateGold(-showedWeapon.equipmentPrize);
+            showedWeapon.equipmentStatus = EquipmentStatus.Unlocked;
 
             //Update information in list
-            Weapon foundedWeapon = WeaponManager.Instance.weaponInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
+            Equipment foundedWeapon = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(weapon => weapon.id == showedWeapon.id);
             if (foundedWeapon != null)
             {
-                foundedWeapon.weaponStatus = WeaponStatus.Unlocked;
+                foundedWeapon.equipmentStatus = EquipmentStatus.Unlocked;
             }
 
             //Update player information
-            WeaponManager.Instance.SaveToJson();
+            EquipmentManager.Instance.SaveToJson();
         }
     }
 }

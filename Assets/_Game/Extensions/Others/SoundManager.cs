@@ -21,13 +21,13 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey(Constant.Sound_SETTING))
+        if (!PlayerPrefs.HasKey(Constant.SOUND_SETTING))
         {
-            PlayerPrefs.SetInt(Constant.Sound_SETTING, 1);
+            PlayerPrefs.SetInt(Constant.SOUND_SETTING, 1);
         }
         else
         {
-            currentVolume = PlayerPrefs.GetInt(Constant.Sound_SETTING);
+            currentVolume = PlayerPrefs.GetInt(Constant.SOUND_SETTING);
         }
     }
 
@@ -46,12 +46,12 @@ public class SoundManager : Singleton<SoundManager>
         if (Instance.audioSource.volume > 0)
         {
             Instance.audioSource.volume = 0;
-            PlayerPrefs.SetInt(Constant.Sound_SETTING, 0);
+            PlayerPrefs.SetInt(Constant.SOUND_SETTING, 0);
         }
         else
         {
             Instance.audioSource.volume = 1;
-            PlayerPrefs.SetInt(Constant.Sound_SETTING, 1);
+            PlayerPrefs.SetInt(Constant.SOUND_SETTING, 1);
         }
     }
 

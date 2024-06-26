@@ -8,7 +8,7 @@ public class SkinItem : MonoBehaviour
 
     [Header("Parameters")]
     public CanvasSkinStore canvasSkinStore;
-    public Skin skin;
+    public Equipment skin;
 
     private void Awake()
     {
@@ -46,7 +46,7 @@ public class SkinItem : MonoBehaviour
             }
 
             //log icon
-            if (skin.weaponStatus == WeaponStatus.Locked)
+            if (skin.equipmentStatus == EquipmentStatus.Locked)
             {
                 logIcon.gameObject.SetActive(true);
             }
@@ -56,7 +56,7 @@ public class SkinItem : MonoBehaviour
             }
 
             //ItemIcon
-            ItemImage.sprite = skin.skinImnage;
+            ItemImage.sprite = skin.equipmentImage;
         }
     }
 }

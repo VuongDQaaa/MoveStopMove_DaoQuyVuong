@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public enum BulletType { Spin, Strait }
+public enum BulletType
+{
+    Spin = 0,
+    Strait = 1,
+    Boomerang = 2
+}
 
 public class BulletController : MonoBehaviour
 {
@@ -10,29 +15,41 @@ public class BulletController : MonoBehaviour
     [SerializeField] private float rotateSpeed;
     [SerializeField] private BulletType bulletType;
     private Vector3 targetPos = Vector3.zero;
+    private bool isReturned;
+
+    private void OnEnable()
+    {
+        isReturned = false;
+    }
 
     private void Update()
     {
-        DirectionControl();
+        BulletControl();
     }
 
-    public void DirectionControl()
+    public void BulletControl()
     {
         if (targetPos != Vector3.zero)
         {
-            //Bullet movement
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
-
-            //Bullet rotate
-            if (bulletType == BulletType.Spin)
+            if (bulletType == BulletType.Spin || bulletType == BulletType.Strait)
             {
-                transform.Rotate(0, 0, -rotateSpeed);
+                //Bullet movement
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
+                //Disable bullet if out of attack range
+                if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else if (bulletType == BulletType.Boomerang)
+            {
+                BoomerangBullet();
             }
 
-            //Disable bullet if out of attack range
-            if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+            //Bullet rotate
+            if (bulletType == BulletType.Spin || bulletType == BulletType.Boomerang)
             {
-                gameObject.SetActive(false);
+                transform.Rotate(0, 0, -rotateSpeed);
             }
         }
     }
@@ -46,6 +63,25 @@ public class BulletController : MonoBehaviour
             Vector3 rotate = new Vector3(0, 0, -90);
             rotate.y = attacker.transform.eulerAngles.y + 90;
             transform.eulerAngles = rotate;
+        }
+    }
+
+    private void BoomerangBullet()
+    {
+        //first throw
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
+        //return
+        if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+        {
+            isReturned = true;
+            transform.position = Vector3.MoveTowards(transform.position, attacker.position, bulletSpeed * Time.deltaTime);
+        }
+
+        //disable boomerang
+        if (Vector3.Distance(transform.position, attacker.position) <= 0.1f
+            && isReturned == true)
+        {
+            gameObject.SetActive(false);
         }
     }
 

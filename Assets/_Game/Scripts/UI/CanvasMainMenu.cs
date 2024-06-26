@@ -9,15 +9,14 @@ public class CanvasMainMenu : UICanvas
     [SerializeField] private Button ADSButton, vibrationButton, soundButton, weaponButton, skinButton, playButton;
     [SerializeField] private Image vibrationActive, soundActive, vibractionDeactive, soundDeactive;
     [SerializeField] private TextMeshProUGUI goldText, inforText;
-    [SerializeField] private List<GameObject> leftElements;
-    [SerializeField] private List<GameObject> rightElements;
+    [SerializeField] private List<RectTransform> leftElements;
+    [SerializeField] private List<RectTransform> rightElements;
 
     [Header("UI pararemeters")]
     [SerializeField] private float UITransactionSpeed;
     private bool UIMoved;
-    [SerializeField] private GameObject lefDirection, rightDirection;
-    [SerializeField] private List<float> leftOriginPos;
-    [SerializeField] private List<float> rightOriginPos;
+    [SerializeField] private List<Vector2> leftOriginPos;
+    [SerializeField] private List<Vector2> rightOriginPos;
 
     private void Awake()
     {
@@ -49,7 +48,6 @@ public class CanvasMainMenu : UICanvas
         }
 
         MoveUIElement();
-        RestoreUIElements();
         UpdateSoundIcon();
         inforText.text = $"ZONE {LevelManager.Instance.GetMapLevel()} - BEST #100";
     }
@@ -134,55 +132,55 @@ public class CanvasMainMenu : UICanvas
     {
         if (UIMoved == true)
         {
-            foreach (GameObject item in leftElements)
+            foreach (var item in leftElements)
             {
-                Vector3 dir = item.transform.position;
-                dir.x = lefDirection.transform.position.x;
-                item.transform.position = Vector3.MoveTowards(item.transform.position, dir, UITransactionSpeed);
+                Vector2 dir = item.anchoredPosition;
+                dir.x = Constant.MAINMENU_UI_MOVE_LEFT;
+                item.anchoredPosition = Vector2.MoveTowards(item.anchoredPosition, dir, UITransactionSpeed);
             }
 
-            foreach (GameObject item in rightElements)
+            foreach (RectTransform item in rightElements)
             {
-                Vector3 dir = item.transform.position;
-                dir.x = rightDirection.transform.position.x;
-                item.transform.position = Vector3.MoveTowards(item.transform.position, dir, UITransactionSpeed);
+                Vector2 dir = item.anchoredPosition;
+                dir.x = Constant.MAINMENU_UI_MOVE_RIGHT;
+                item.anchoredPosition = Vector2.MoveTowards(item.anchoredPosition, dir, UITransactionSpeed);
             }
         }
-    }
-
-    private void RestoreUIElements()
-    {
-        if (UIMoved == false && leftOriginPos.Count > 0 && rightOriginPos.Count > 0)
+        else if (rightOriginPos.Count > 0 && leftOriginPos.Count > 0)
         {
-            foreach (GameObject item in leftElements)
+            foreach (var item in leftElements)
             {
                 int index = leftElements.IndexOf(item);
-                Vector3 dir = item.transform.position;
-                dir.x = leftOriginPos[index];
-                item.transform.position = Vector3.MoveTowards(item.transform.position, dir, UITransactionSpeed);
+                if (item.anchoredPosition != leftOriginPos[index])
+                {
+                    Vector2 currentPos = item.anchoredPosition;
+                    item.anchoredPosition = Vector2.MoveTowards(currentPos, leftOriginPos[index], UITransactionSpeed);
+                }
             }
 
-            foreach (GameObject item in rightElements)
+            foreach (var item in rightElements)
             {
                 int index = rightElements.IndexOf(item);
-                Vector3 dir = item.transform.position;
-                dir.x = rightOriginPos[index];
-                item.transform.position = Vector3.MoveTowards(item.transform.position, dir, UITransactionSpeed);
+                if (item.anchoredPosition != rightOriginPos[index])
+                {
+                    Vector2 currentPos = item.anchoredPosition;
+                    item.anchoredPosition = Vector2.MoveTowards(currentPos, rightOriginPos[index], UITransactionSpeed);
+                }
             }
         }
     }
 
     IEnumerator SaveOriginPos()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         //Save origin postion for each UI element before move
-        foreach (GameObject item in leftElements)
+        foreach (var item in leftElements)
         {
-            leftOriginPos.Add(item.transform.position.x);
+            leftOriginPos.Add(item.anchoredPosition);
         }
-        foreach (GameObject item in rightElements)
+        foreach (var item in rightElements)
         {
-            rightOriginPos.Add(item.transform.position.x);
+            rightOriginPos.Add(item.anchoredPosition);
         }
     }
 }

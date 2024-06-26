@@ -12,18 +12,21 @@ public class StopState : IState
 
     public void OnExecute(BotController bot)
     {
-        if(timer > 0)
+        if (!bot.IsDeath())
         {
-            bot.OnStop();
-            timer -= Time.deltaTime;
-        }
-        else if(timer <= 0 && findTarget)
-        {
-            bot.ChangeState(new FindTargetState());
-        }
-        else
-        {
-            bot.ChangeState(new PatrolState());
+            if (timer > 0)
+            {
+                bot.OnStop();
+                timer -= Time.deltaTime;
+            }
+            else if (timer <= 0 && findTarget)
+            {
+                bot.ChangeState(new FindTargetState());
+            }
+            else
+            {
+                bot.ChangeState(new PatrolState());
+            }
         }
     }
 

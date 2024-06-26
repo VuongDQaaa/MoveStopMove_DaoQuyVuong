@@ -10,9 +10,10 @@ public static class Constant
     public const string PLAYERFREFS_KEY_GOLD = "PlayerGold";
     public const string PLAYERFREFS_KEY_LEVEL = "Map Level";
     public const string PLAYERFREFS_KEY_SOUND = "Sound";
-    public const string WEAPON_DATA_FILE_NAME = "WeaponData.json";
-    public const string SKIN_DATA_FILE_NAME = "SkinData.json";
-    public const string Sound_SETTING = "Sound";
+    public const string USER_DATA_FILE = "/userData.json";
+    public const string SOUND_SETTING = "Sound";
+    public const float MAINMENU_UI_MOVE_RIGHT = 660f;
+    public const float MAINMENU_UI_MOVE_LEFT = -660f;
     public static readonly string[] BOT_NAMES = { "ShadowHunter", "MysticWarrior", "DragonSlayer", "NightStalker", "StormBringer",
     "PhoenixRider", "IceWizard", "FireMage", "ThunderLord", "SilentAssassin",
     "DarkKnight", "GhostRider", "BladeMaster", "LightningBolt", "SilverArrow",

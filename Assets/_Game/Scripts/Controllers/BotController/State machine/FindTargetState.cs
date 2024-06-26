@@ -12,9 +12,9 @@ public class FindTargetState : IState
             bot.ChangeState(new StopState());
         }
 
-        if(bot.Death())
+        if(bot.IsDeath())
         {
-            bot.agent.isStopped = true;
+            bot.agent.ResetPath();
         }    
     }
 
