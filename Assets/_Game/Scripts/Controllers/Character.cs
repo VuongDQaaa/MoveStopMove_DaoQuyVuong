@@ -103,7 +103,7 @@ public class Character : MonoBehaviour
         if (Physics.Raycast(nextPos, Vector3.down, out hit, groundLayer))
         {
             Vector3 newPos = hit.point + Vector3.up * transform.localScale.y;
-            newPos.y += 0.2f;
+            newPos.y += 0.1f;
             return newPos;
         }
         return transform.position;

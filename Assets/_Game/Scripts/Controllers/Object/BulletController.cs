@@ -14,74 +14,92 @@ public class BulletController : MonoBehaviour
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private BulletType bulletType;
-    private Vector3 targetPos = Vector3.zero;
-    private bool isReturned;
+    [SerializeField] private Vector3 targetPos = Vector3.zero;
+    [SerializeField] private Vector3 startPos = Vector3.zero;
+    [SerializeField] private bool isReturned;
 
     private void OnEnable()
     {
         isReturned = false;
+        startPos = attacker.position;
     }
 
     private void Update()
     {
-        BulletControl();
+        if (bulletType == BulletType.Boomerang)
+        {
+            BoomerangBullet();
+        }
+        else
+        {
+            NormalBulletControl();
+        }
+
+        RotateBullet();
     }
 
-    public void BulletControl()
+    private void RotateBullet()
     {
-        if (targetPos != Vector3.zero)
+        //Bullet rotate
+        if (bulletType == BulletType.Spin || bulletType == BulletType.Boomerang)
         {
-            if (bulletType == BulletType.Spin || bulletType == BulletType.Strait)
-            {
-                //Bullet movement
-                transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
-                //Disable bullet if out of attack range
-                if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
-                {
-                    gameObject.SetActive(false);
-                }
-            }
-            else if (bulletType == BulletType.Boomerang)
-            {
-                BoomerangBullet();
-            }
-
-            //Bullet rotate
-            if (bulletType == BulletType.Spin || bulletType == BulletType.Boomerang)
-            {
-                transform.Rotate(0, 0, -rotateSpeed);
-            }
+            transform.Rotate(0, 0, -rotateSpeed);
         }
     }
 
-    public void SetTargetPos(Vector3 newPos)
+    private void NormalBulletControl()
     {
-        //set a target for bullet
-        targetPos = newPos;
-        if (bulletType == BulletType.Strait)
+        if (targetPos != Vector3.zero)
         {
-            Vector3 rotate = new Vector3(0, 0, -90);
-            rotate.y = attacker.transform.eulerAngles.y + 90;
-            transform.eulerAngles = rotate;
+            //Bullet movement
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
+            //Disable bullet if out of attack range
+            if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
     private void BoomerangBullet()
     {
-        //first throw
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
-        //return
-        if (Vector3.Distance(transform.position, targetPos) <= 0.1f)
+        //First throw
+        if (targetPos != Vector3.zero && !isReturned)
         {
-            isReturned = true;
-            transform.position = Vector3.MoveTowards(transform.position, attacker.position, bulletSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, bulletSpeed * Time.deltaTime);
         }
 
-        //disable boomerang
-        if (Vector3.Distance(transform.position, attacker.position) <= 0.1f
-            && isReturned == true)
+        //condition to return
+        if (Vector3.Distance(transform.position, targetPos) <= 0.1f && gameObject.activeSelf)
+        {
+            Debug.Log("return");
+            isReturned = true;
+        }
+
+        //return
+        if(isReturned)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startPos, bulletSpeed * Time.deltaTime);
+        }
+
+        //disable when return
+        if(Vector3.Distance(transform.position, startPos) <= 0.1f && isReturned)
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    public void SetTargetPos(Vector3 target)
+    {
+        //set a target for bullet
+        targetPos = target;
+
+        //set direction for strait bullet
+        if (bulletType == BulletType.Strait)
+        {
+            Vector3 rotate = new Vector3(0, 0, -90);
+            rotate.y = attacker.transform.eulerAngles.y + 90;
+            transform.eulerAngles = rotate;
         }
     }
 

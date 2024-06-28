@@ -37,16 +37,16 @@ public class EquipmentManager : Singleton<EquipmentManager>
         }
     }
 
-
-
     private void LoadFromJson()
     {
         Debug.Log("Load from json");
         equipmentInfor = equipmentBasedData;
-        foreach (Equipment equipment in equipmentInfor)
-        {
-            Debug.Log("Equipment: " + equipment.name);
-        }
+
+        //Debug
+        // foreach (Equipment equipment in equipmentInfor)
+        // {
+        //     Debug.Log("Equipment: " + equipment.name);
+        // }
 
         if (File.Exists(userFilePath))
         {

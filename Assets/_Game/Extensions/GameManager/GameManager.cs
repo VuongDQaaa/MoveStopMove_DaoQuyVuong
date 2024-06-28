@@ -50,8 +50,8 @@ public class GameManager : Singleton<GameManager>
         //Update gold
         if (!PlayerPrefs.HasKey(Constant.PLAYERFREFS_KEY_GOLD))
         {
-            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, 0);
-            currentGold = 0;
+            PlayerPrefs.SetInt(Constant.PLAYERFREFS_KEY_GOLD, 10000);
+            currentGold = 10000;
         }
         else
         {

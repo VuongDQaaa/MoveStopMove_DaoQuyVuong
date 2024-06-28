@@ -93,6 +93,10 @@ public class BotController : Character
         {
             ChangeAnim(AnimationState.idle);
         }
+        else if(isDeath)
+        {
+            ChangeAnim(AnimationState.die);
+        }
     }
 
     public void OnFindTarget()
