@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8325777506008760507}
   m_Layer: 0
   m_Name: Knife_Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,9 @@ MonoBehaviour:
   bulletSpeed: 15
   rotateSpeed: 20
   bulletType: 1
+  targetPos: {x: 0, y: 0, z: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  isReturned: 0
 --- !u!64 &1515212032629609817
 MeshCollider:
   m_ObjectHideFlags: 0

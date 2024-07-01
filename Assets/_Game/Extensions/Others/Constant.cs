@@ -12,6 +12,8 @@ public static class Constant
     public const string PLAYERFREFS_KEY_SOUND = "Sound";
     public const string USER_DATA_FILE = "/userData.json";
     public const string SOUND_SETTING = "Sound";
+    public const float ORIGIN_ATTACK_SPEED = 1f;
+    public const float ORIGIN_ATTACK_RANGE = 6f;
     public const float MAINMENU_UI_MOVE_RIGHT = 660f;
     public const float MAINMENU_UI_MOVE_LEFT = -660f;
     public static readonly string[] BOT_NAMES = { "ShadowHunter", "MysticWarrior", "DragonSlayer", "NightStalker", "StormBringer",

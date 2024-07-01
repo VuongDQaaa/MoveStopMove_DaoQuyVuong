@@ -64,9 +64,12 @@ public class CameraController : Singleton<CameraController>
         offset.z -= 2f;
     }
 
-    public void Reset()
+    public void ResetOffset()
     {
-        offset = originOffset;
+        if(offset != originOffset)
+        {
+            offset = originOffset;
+        }
     }
 }
 

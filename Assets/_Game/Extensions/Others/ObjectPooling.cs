@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectPooling : Singleton<ObjectPooling>
 {
+    //generic
     [SerializeField] private List<GameObject> pooledObjects = new List<GameObject>();
 
     public void InstantiatePoolObject(GameObject prefabObject)

@@ -16,11 +16,11 @@ MonoBehaviour:
   equipmentName: Luffy
   equipmentType: 0
   equipmentStatus: 0
-  equipmentModel: {fileID: 0}
+  equipmentModel: {fileID: 80355350097072522, guid: 87b0be33300ace344b3a838562789aab, type: 3}
   bulletPrefab: {fileID: 0}
   equipmentMaterial: {fileID: 0}
   equipmentImage: {fileID: 21300000, guid: 69fc10e773b5a814198a5883e168c2b7, type: 3}
   equipmentPrize: 600
-  equipmentAbility: +50 Attack Speed
-  attackRange: 1
-  attackSpeed: 1.5
+  equipmentAbility: +20% Attack Speed
+  attackRange: 0
+  attackSpeed: 20

@@ -117,7 +117,7 @@ public class BulletController : MonoBehaviour
                 SoundManager.PlaySound(SoundType.WeaponHit);
                 int victimScore = victim.GetComponent<Character>().currentPoint;
                 attacker.GetComponent<Character>().AddScore(victimScore);
-                victim.GetComponent<Character>().OnDie();
+                
                 //Update Player's killer name
                 if (victim.gameObject.tag == Constant.TAG_PLAYER)
                 {

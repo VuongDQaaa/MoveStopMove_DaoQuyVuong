@@ -22,5 +22,5 @@ MonoBehaviour:
   equipmentImage: {fileID: 21300000, guid: ce130da2d9627654994c26c5c9da1967, type: 3}
   equipmentPrize: 200
   equipmentAbility: +10% Attack Speed
-  attackRange: 1
-  attackSpeed: 1.1
+  attackRange: 0
+  attackSpeed: 10

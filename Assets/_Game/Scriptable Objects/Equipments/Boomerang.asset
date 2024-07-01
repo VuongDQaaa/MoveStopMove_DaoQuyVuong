@@ -16,11 +16,11 @@ MonoBehaviour:
   equipmentName: Boomerang
   equipmentType: 4
   equipmentStatus: 0
-  equipmentModel: {fileID: 1249964625236251611, guid: 31354300ec4c26c4a90658f91b83eb07, type: 3}
-  bulletPrefab: {fileID: 3638385708847349284, guid: 40716c89785c4e849923e6113ecc6ea4, type: 3}
+  equipmentModel: {fileID: 6339297584444961462, guid: 837c1892841fa53428912ac26989d4dc, type: 3}
+  bulletPrefab: {fileID: 480372722253168045, guid: 40716c89785c4e849923e6113ecc6ea4, type: 3}
   equipmentMaterial: {fileID: 0}
   equipmentImage: {fileID: 21300000, guid: 850560a3d5d05414985431b7fe969284, type: 3}
   equipmentPrize: 500
   equipmentAbility: Return to attacker
-  attackRange: 2
-  attackSpeed: 1
+  attackRange: 20
+  attackSpeed: 0

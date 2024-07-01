@@ -20,7 +20,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 0}
   equipmentMaterial: {fileID: 2100000, guid: 1e786ed702ab058408f7ae85d8963e08, type: 2}
   equipmentImage: {fileID: 21300000, guid: bf6c3011d09de5645b20958b4178cdf7, type: 3}
-  equipmentPrize: 0
-  equipmentAbility: 
+  equipmentPrize: 600
+  equipmentAbility: None
   attackRange: 0
   attackSpeed: 0

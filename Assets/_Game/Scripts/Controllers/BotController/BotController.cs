@@ -34,7 +34,6 @@ public class BotController : Character
                 currentState.OnExecute(this);
             }
             DetectTarget();
-            Attack();
         }
     }
 
@@ -89,13 +88,13 @@ public class BotController : Character
         //stop character
         agent.ResetPath();
         isMoving = false;
-        if (isAttack == false && currentTarget == null)
+        if (currentTarget != null)
+        {
+            Attack();
+        }
+        else
         {
             ChangeAnim(AnimationState.idle);
-        }
-        else if(isDeath)
-        {
-            ChangeAnim(AnimationState.die);
         }
     }
 

@@ -29,6 +29,7 @@ public class SkinItem : MonoBehaviour
     {
         SoundManager.PlaySound(SoundType.Button);
         canvasSkinStore.currentSelectedSkin = skin;
+        //preview skin
     }
 
     private void UpdateItem()

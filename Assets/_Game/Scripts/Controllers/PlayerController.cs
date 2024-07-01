@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ public class PlayerController : Character
             currentScale = transform.localScale;
         }
 
-        if (isDeath == false)
+        if (isDeath == false && GameManager.Instance.currentGameState == GameState.Playing)
         {
             if (JoyStickController.direction != Vector3.zero)
             {
@@ -42,6 +41,14 @@ public class PlayerController : Character
             MoveCharacter();
             ShowAiming();
             TransparentZoneControl();
+        }
+        else if (GameManager.Instance.currentGameState == GameState.Shopping)
+        {
+            ChangeAnim(AnimationState.dance);
+        }
+        else if (GameManager.Instance.currentGameState == GameState.Start)
+        {
+            ChangeAnim(AnimationState.idle);
         }
     }
 
@@ -74,7 +81,8 @@ public class PlayerController : Character
             EquipSkin(shield);
         }
         //weapon
-        Equipment foundedWeapon = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(weapon => weapon.equipmentStatus == EquipmentStatus.Equiped);
+        Equipment foundedWeapon = EquipmentManager.Instance.equipmentInfor.FirstOrDefault(weapon => weapon.equipmentType == EquipmentType.Weapon
+                                                                        && weapon.equipmentStatus == EquipmentStatus.Equiped);
         if (foundedWeapon != null)
         {
             EquipWeapon(foundedWeapon);
@@ -108,7 +116,8 @@ public class PlayerController : Character
         transparentZone.transform.position = newPos;
 
         //control scale
-        fixedScale = attackRange / Constant.SCALE_TRANSPARENT;
+        float range = (float)Mathf.Round(attackRange);
+        fixedScale = range / Constant.SCALE_TRANSPARENT;
         Vector3 newScale = new Vector3(fixedScale, fixedScale, fixedScale);
         transparentZone.transform.localScale = newScale;
     }
@@ -145,7 +154,12 @@ public class PlayerController : Character
         if (JoyStickController.direction == Vector3.zero)
         {
             isMoving = false;
-            if (isAttack == false)
+            //check attack when player stop
+            if (currentTarget != null)
+            {
+                Attack();
+            }
+            else
             {
                 ChangeAnim(AnimationState.idle);
             }
@@ -173,13 +187,11 @@ public class PlayerController : Character
             {
                 Destroy(child.gameObject);
             }
-            attackRange /= currentHat.attackRange;
-            attackSpeed /= currentHat.attackSpeed;
+            ResetStatus(currentHat);
         }
         else if (Equipment.equipmentType == EquipmentType.Pant && currentPant != null)
         {
-            attackRange /= currentPant.attackRange;
-            attackSpeed /= currentPant.attackSpeed;
+            ResetStatus(currentPant);
         }
         else if (Equipment.equipmentType == EquipmentType.Shield && currentShield != null)
         {
@@ -187,18 +199,23 @@ public class PlayerController : Character
             {
                 Destroy(child.gameObject);
             }
-            attackRange /= currentShield.attackRange;
-            attackSpeed /= currentShield.attackSpeed;
+            ResetStatus(currentShield);
         }
         //update new Equipment
         EquipSkin(Equipment);
     }
 
+    //TODO
+    public void PreviewSkin(Equipment skin)
+    {}
+
+    public void ExitPreviewSkin()
+    {}
+
     private void ResetWeapon()
     {
         //reset player status before equip weapon
-        attackRange /= currentWeapon.attackRange;
-        attackSpeed /= currentWeapon.attackSpeed;
+        ResetStatus(currentWeapon);
 
         //destroy old weapon model and bullet prefab
         foreach (Transform child in weaponHold)

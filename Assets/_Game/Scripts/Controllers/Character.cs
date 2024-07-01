@@ -21,6 +21,10 @@ public class Character : MonoBehaviour
     private float sizeIncreaseFactor = 1.1f;
     private float rangeIncreaseFactor = 1.1f;
     protected MapController currentMap;
+    [SerializeField] private float orginAttackRange;
+    [SerializeField] private float orginAttackSpeed;
+    public float attackRange;
+    [SerializeField] protected float attackSpeed;
 
     [Header("Attack")]
     [SerializeField] private LayerMask attackLayer;
@@ -34,12 +38,10 @@ public class Character : MonoBehaviour
     [SerializeField] protected Equipment currentShield;
     [SerializeField] protected Transform weaponHold;
     protected GameObject bulletPrefab;
-    public float attackRange;
-    [SerializeField] protected float attackSpeed;
     [SerializeField] private Transform root;
 
     [Header("Skin")]
-    [SerializeField] private Transform pant;
+    [SerializeField] protected Transform pant;
     [SerializeField] protected Transform hat;
     [SerializeField] protected Transform shield;
 
@@ -49,6 +51,11 @@ public class Character : MonoBehaviour
 
     protected virtual void Awake()
     {
+        //reset character status
+        orginAttackRange = Constant.ORIGIN_ATTACK_RANGE;
+        orginAttackSpeed = Constant.ORIGIN_ATTACK_SPEED;
+        attackRange = orginAttackRange;
+        attackSpeed = orginAttackSpeed;
         originAnimSpeed = anim.speed;
         isDeath = false;
         Cache.AddCharacter(transform.GetComponent<Collider>(), transform.GetComponent<Character>());
@@ -63,36 +70,47 @@ public class Character : MonoBehaviour
     {
         currentWeapon = weapon;
         //Spawn weapon on character hand
-        Instantiate(currentWeapon.equipmentModel, weaponHold.position, weaponHold.rotation, weaponHold);
+        Instantiate(currentWeapon.equipmentModel, weaponHold);
         //Update bullet prefab
         bulletPrefab = currentWeapon.bulletPrefab;
         //Update character status
-        attackRange = attackRange * currentWeapon.attackRange;
-        attackSpeed = attackSpeed * currentWeapon.attackSpeed;
+        AddStatus(weapon);
         bulletPrefab.GetComponent<BulletController>().attacker = transform;
         ObjectPooling.Instance.InstantiatePoolObject(bulletPrefab);
     }
 
     protected void EquipSkin(Equipment skin)
     {
+        //Create equipment on character
         if (skin.equipmentType == EquipmentType.Hat)
         {
             currentHat = skin;
-            Instantiate(skin.equipmentModel, hat.position, hat.rotation, hat);
+            Instantiate(skin.equipmentModel, hat);
         }
-        else if(skin.equipmentType == EquipmentType.Pant)
+        else if (skin.equipmentType == EquipmentType.Pant)
         {
             currentPant = skin;
             pant.GetComponent<SkinnedMeshRenderer>().material = skin.equipmentMaterial;
         }
-        else if(skin.equipmentType == EquipmentType.Shield)
+        else if (skin.equipmentType == EquipmentType.Shield)
         {
             currentShield = skin;
-            Instantiate(skin.equipmentModel, shield.position, shield.rotation, shield);
+            Instantiate(skin.equipmentModel, shield);
         }
 
-        attackRange = attackRange * skin.attackRange;
-        attackSpeed = attackSpeed * skin.attackSpeed;
+        AddStatus(skin);
+    }
+
+    private void AddStatus(Equipment equipment)
+    {
+        attackRange = attackRange + orginAttackRange / 100 * equipment.attackRange;
+        attackSpeed = attackSpeed + orginAttackSpeed / 100 * equipment.attackSpeed;
+    }
+
+    protected void ResetStatus(Equipment equipment)
+    {
+        attackRange = attackRange - orginAttackRange / 100 * equipment.attackRange;
+        attackSpeed = attackSpeed - orginAttackSpeed / 100 * equipment.attackSpeed;
     }
 
     public Vector3 CheckGrounded(Vector3 nextPos)
@@ -142,10 +160,13 @@ public class Character : MonoBehaviour
         }
     }
 
-    //Auto attack character if not moving
     protected void Attack()
     {
-        if (!isMoving && currentTarget != null)
+        //Auto attack character if not moving, still alive, isAttack = false
+        if (!isMoving
+            && currentTarget != null
+            && !isDeath
+            && !isAttack)
         {
             isAttack = true;
             //Update character postion when attacking
@@ -153,6 +174,7 @@ public class Character : MonoBehaviour
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
             //Change animation
+            //AttackEvent() run in attack anim
             ChangeAnim(AnimationState.attack);
         }
         else
@@ -170,6 +192,7 @@ public class Character : MonoBehaviour
     {
         if (currentTarget != null)
         {
+            isAttack = false;
             GenerateBullet(currentTarget);
         }
     }
@@ -243,17 +266,29 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void OnDie()
+    private void OnDie()
     {
+        isDeath = true;
         SoundManager.PlaySound(SoundType.Die);
         StartCoroutine(SetDie());
     }
 
     IEnumerator SetDie()
     {
-        isDeath = true;
         ChangeAnim(AnimationState.die);
         yield return new WaitForSeconds(1.5f);
         currentMap.RemoveCharacter(transform.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Constant.TAG_BULLET))
+        {
+            BulletController bulletController = other.transform.GetComponent<BulletController>();
+            if (bulletController.attacker != transform)
+            {
+                OnDie();
+            }
+        }
     }
 }
